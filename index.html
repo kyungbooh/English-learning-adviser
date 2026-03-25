@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EnglishMe — 나만의 영어 학습법 찾기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<!-- QR Code library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+/* ───── RESET & BASE ───── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --pk: #FF6B9D;
+  --pk2: #FF8FB1;
+  --pkl: #FFF0F5;
+  --gn: #4ECDC4;
+  --gnl: #E8FAF9;
+  --yw: #FFD166;
+  --ywl: #FFF8E7;
+  --pu: #A78BFA;
+  --pul: #F3EFFF;
+  --or: #FF9F43;
+  --orl: #FFF4E8;
+  --bl: #60A5FA;
+  --bll: #EFF6FF;
+  --dark: #1a1a2e;
+  --dark2: #16213e;
+  --dark3: #0f3460;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans KR', 'Nunito', sans-serif;
+  background: #0d0d1a;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* ───── ANIMATED BG ───── */
+.bg-orbs {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+}
+.orb {
+  position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.18;
+  animation: drift 12s ease-in-out infinite alternate;
+}
+.orb1 { width: 500px; height: 500px; background: var(--pk); top: -10%; left: -10%; animation-delay: 0s; }
+.orb2 { width: 400px; height: 400px; background: var(--gn); bottom: -5%; right: -10%; animation-delay: -4s; }
+.orb3 { width: 300px; height: 300px; background: var(--yw); top: 40%; left: 30%; animation-delay: -8s; }
+@keyframes drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(30px, -30px) scale(1.1); }
+}
+
+/* ───── LAYOUT ───── */
+.wrapper { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* ───── HEADER ───── */
+header {
+  padding: 1.25rem 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,13,26,0.85); backdrop-filter: blur(16px);
+}
+.logo { font-family: 'Nunito', sans-serif; font-size: 1.4rem; font-weight: 900;
+  background: linear-gradient(135deg, var(--pk), var(--yw));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.header-badge {
+  padding: 6px 16px; border-radius: 20px;
+  background: rgba(255,107,157,0.15); border: 1px solid rgba(255,107,157,0.3);
+  font-size: 12px; font-weight: 700; color: var(--pk);
+}
+
+/* ───── HERO ───── */
+.hero {
+  padding: 5rem 0 3rem; text-align: center;
+  animation: fadeUp 0.8s ease both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-tag {
+  display: inline-block; padding: 6px 18px; border-radius: 30px;
+  background: rgba(255,209,102,0.15); border: 1px solid rgba(255,209,102,0.3);
+  color: var(--yw); font-size: 13px; font-weight: 700; margin-bottom: 1.5rem;
+  letter-spacing: 0.04em;
+}
+.hero h1 {
+  font-size: clamp(2.2rem, 6vw, 3.6rem); font-weight: 900; line-height: 1.15;
+  margin-bottom: 1.25rem;
+}
+.hero h1 span {
+  background: linear-gradient(135deg, var(--pk), var(--or), var(--yw));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero-sub {
+  font-size: clamp(1rem, 2.5vw, 1.2rem); color: rgba(255,255,255,0.65);
+  line-height: 1.7; max-width: 580px; margin: 0 auto 2.5rem;
+}
+.hero-types {
+  display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 2.5rem;
+}
+.type-pill {
+  display: flex; align-items: center; gap: 8px; padding: 10px 18px;
+  border-radius: 40px; font-size: 14px; font-weight: 700;
+  border: 1px solid; backdrop-filter: blur(8px);
+  animation: fadeUp 0.8s ease both;
+}
+.tp-pink  { background: rgba(255,107,157,0.12); border-color: rgba(255,107,157,0.3); color: var(--pk2); animation-delay: 0.1s; }
+.tp-teal  { background: rgba(78,205,196,0.12);  border-color: rgba(78,205,196,0.3);  color: var(--gn);  animation-delay: 0.2s; }
+.tp-gold  { background: rgba(255,209,102,0.12); border-color: rgba(255,209,102,0.3); color: var(--yw);  animation-delay: 0.3s; }
+
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 36px; border-radius: 50px; border: none; cursor: pointer;
+  background: linear-gradient(135deg, var(--pk), var(--or));
+  color: #fff; font-size: 1.1rem; font-weight: 800; font-family: inherit;
+  box-shadow: 0 8px 32px rgba(255,107,157,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: fadeUp 0.8s ease 0.4s both;
+}
+.cta-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(255,107,157,0.5); }
+
+/* ───── SECTION TITLES ───── */
+.section { padding: 5rem 0; }
+.sec-label {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--pk); margin-bottom: 0.75rem;
+}
+.sec-title { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 900; line-height: 1.2; margin-bottom: 1rem; }
+.sec-sub { font-size: 1rem; color: rgba(255,255,255,0.6); line-height: 1.7; max-width: 520px; }
+
+/* ───── HOW IT WORKS ───── */
+.steps {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem; margin-top: 3rem;
+}
+.step-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px; padding: 1.75rem 1.5rem;
+  position: relative; overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s;
+  animation: fadeUp 0.7s ease both;
+}
+.step-card:hover { transform: translateY(-4px); border-color: rgba(255,107,157,0.3); }
+.step-num {
+  font-family: 'Nunito', sans-serif; font-size: 3rem; font-weight: 900;
+  position: absolute; top: 0.75rem; right: 1rem; opacity: 0.08; line-height: 1;
+}
+.step-icon { font-size: 2rem; margin-bottom: 0.875rem; }
+.step-title { font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; }
+.step-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+.step-card:nth-child(1) { animation-delay: 0.1s; }
+.step-card:nth-child(2) { animation-delay: 0.2s; }
+.step-card:nth-child(3) { animation-delay: 0.3s; }
+.step-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* ───── FEATURES ───── */
+.features { display: grid; gap: 1.25rem; margin-top: 3rem; }
+
+.feat-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;
+}
+@media (max-width: 600px) { .feat-row { grid-template-columns: 1fr; } }
+
+.feat-card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px; padding: 1.75rem;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.feat-card:hover { transform: translateY(-3px); }
+.feat-card.wide { grid-column: 1 / -1; display: flex; align-items: center; gap: 2rem; }
+@media (max-width: 600px) { .feat-card.wide { flex-direction: column; } }
+
+.feat-icon { font-size: 2.5rem; margin-bottom: 0.875rem; }
+.feat-title { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.5rem; }
+.feat-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+.feat-card.pk { border-color: rgba(255,107,157,0.2); background: rgba(255,107,157,0.06); }
+.feat-card.gn { border-color: rgba(78,205,196,0.2); background: rgba(78,205,196,0.06); }
+.feat-card.yw { border-color: rgba(255,209,102,0.2); background: rgba(255,209,102,0.06); }
+.feat-card.pu { border-color: rgba(167,139,250,0.2); background: rgba(167,139,250,0.06); }
+.feat-card.or { border-color: rgba(255,159,67,0.2); background: rgba(255,159,67,0.06); }
+.feat-card.bl { border-color: rgba(96,165,250,0.2); background: rgba(96,165,250,0.06); }
+
+/* ───── QR SECTION ───── */
+.qr-section {
+  padding: 5rem 0; text-align: center;
+}
+.qr-box {
+  display: inline-flex; flex-direction: column; align-items: center;
+  background: #fff; border-radius: 28px; padding: 2.5rem;
+  box-shadow: 0 20px 80px rgba(255,107,157,0.25);
+  position: relative;
+}
+.qr-box::before {
+  content: ''; position: absolute; inset: -2px; border-radius: 30px; z-index: -1;
+  background: linear-gradient(135deg, var(--pk), var(--or), var(--yw));
+}
+#qr-canvas { border-radius: 12px; }
+.qr-label {
+  margin-top: 1.25rem; font-size: 14px; font-weight: 800; color: #1a1a2e;
+  display: flex; align-items: center; gap: 6px;
+}
+.qr-sub { font-size: 12px; color: #666; margin-top: 4px; }
+
+.qr-url-input {
+  display: flex; gap: 8px; margin-top: 2rem; max-width: 480px; margin-left: auto; margin-right: auto;
+}
+.qr-url-input input {
+  flex: 1; padding: 12px 16px; border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08);
+  color: #fff; font-size: 14px; font-family: inherit;
+  outline: none; transition: border-color 0.2s;
+}
+.qr-url-input input::placeholder { color: rgba(255,255,255,0.35); }
+.qr-url-input input:focus { border-color: var(--pk); }
+.qr-url-input button {
+  padding: 12px 20px; border-radius: 12px; border: none; cursor: pointer;
+  background: linear-gradient(135deg, var(--pk), var(--or));
+  color: #fff; font-size: 14px; font-weight: 800; font-family: inherit;
+  transition: transform 0.15s;
+}
+.qr-url-input button:hover { transform: scale(1.04); }
+
+.qr-tip {
+  margin-top: 1.25rem; font-size: 13px; color: rgba(255,255,255,0.45);
+  line-height: 1.6;
+}
+.qr-tip strong { color: rgba(255,255,255,0.75); }
+
+/* ───── CLASS TIPS ───── */
+.tips-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem; margin-top: 2rem;
+}
+.tip-card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px; padding: 1.25rem;
+}
+.tip-head { font-size: 13px; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; }
+.tip-body { font-size: 12.5px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+/* ───── FOOTER ───── */
+footer {
+  padding: 2.5rem 1.5rem; text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.3); font-size: 13px; line-height: 1.8;
+}
+footer strong { color: rgba(255,255,255,0.6); }
+
+/* ───── DIVIDER ───── */
+.divider {
+  height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  margin: 0;
+}
+
+/* ───── SCROLL REVEAL ───── */
+.reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND ORBS -->
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">🌟 EnglishMe</div>
+  <div class="header-badge">중·고등학생 맞춤 영어 학습 동기 앱</div>
+</header>
+
+<!-- HERO -->
+<div class="wrapper">
+  <section class="hero">
+    <div class="hero-tag">✨ AI 기반 성격 통합 분석 플랫폼</div>
+    <h1>나만의 방법으로<br><span>영어에 빠져들어요!</span></h1>
+    <p class="hero-sub">
+      MBTI · 사상체질 · 에니어그램, 세 가지 성격 체계를 동시에 분석해<br>
+      학생 개개인에게 딱 맞는 영어 학습법과 동기부여 방법을 찾아줍니다.
+    </p>
+    <div class="hero-types">
+      <div class="type-pill tp-pink">🧠 MBTI <small style="opacity:.7">16가지 인지 성향</small></div>
+      <div class="type-pill tp-teal">☯️ 사상체질 <small style="opacity:.7">4가지 에너지 기질</small></div>
+      <div class="type-pill tp-gold">🔢 에니어그램 <small style="opacity:.7">9가지 핵심 동기</small></div>
+    </div>
+    <button class="cta-btn" onclick="document.getElementById('qr-section').scrollIntoView({behavior:'smooth'})">
+      📱 지금 바로 시작하기
+    </button>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- HOW IT WORKS -->
+  <section class="section reveal">
+    <div class="sec-label">How It Works</div>
+    <div class="sec-title">어떻게 사용하나요?</div>
+    <p class="sec-sub">딱 4단계만 따라하면 나만의 영어 학습법을 찾을 수 있어요!</p>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-icon">📱</div>
+        <div class="step-title">QR코드 스캔</div>
+        <div class="step-desc">휴대폰 카메라로 QR코드를 스캔해서 앱에 접속해요.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-icon">📝</div>
+        <div class="step-title">성격 검사 (3단계)</div>
+        <div class="step-desc">MBTI → 사상체질 → 에니어그램 순서로 솔직하게 답해요.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-icon">🤖</div>
+        <div class="step-title">AI 분석 결과</div>
+        <div class="step-desc">AI가 세 체계를 통합 분석해 나만의 학습 유형을 알려줘요.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <div class="step-icon">🎯</div>
+        <div class="step-title">목표 설정 & 트래킹</div>
+        <div class="step-desc">맞춤 학습법으로 목표를 세우고 매일 학습을 기록해요.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FEATURES -->
+  <section class="section reveal">
+    <div class="sec-label">Features</div>
+    <div class="sec-title">무엇을 할 수 있나요?</div>
+    <p class="sec-sub">학생과 선생님 모두를 위한 기능이 담겨 있어요.</p>
+
+    <div class="features" style="margin-top: 2.5rem;">
+      <div class="feat-row">
+        <div class="feat-card pk">
+          <div class="feat-icon">🧬</div>
+          <div class="feat-title">성격 통합 분석</div>
+          <div class="feat-desc">MBTI·사상체질·에니어그램을 동시에 분석해 세상에 하나뿐인 나만의 학습자 유형을 만들어줘요.</div>
+        </div>
+        <div class="feat-card gn">
+          <div class="feat-icon">💪</div>
+          <div class="feat-title">학습 동기 지수</div>
+          <div class="feat-desc">AI가 성격 분석을 바탕으로 나의 영어 학습 동기 지수(%)를 측정하고 동기 회복 처방전을 제공해요.</div>
+        </div>
+      </div>
+      <div class="feat-row">
+        <div class="feat-card yw">
+          <div class="feat-icon">🎯</div>
+          <div class="feat-title">맞춤 학습법 추천</div>
+          <div class="feat-desc">4가지 맞춤 학습법과 오늘 당장 할 수 있는 5분 미션을 제안해줘요.</div>
+        </div>
+        <div class="feat-card pu">
+          <div class="feat-icon">📅</div>
+          <div class="feat-title">학습 목표 & 트래커</div>
+          <div class="feat-desc">목표를 설정하고 매일 학습을 기록해요. XP를 모아 레벨업하는 게임처럼 동기가 유지돼요!</div>
+        </div>
+      </div>
+      <div class="feat-card wide bl">
+        <div>
+          <div class="feat-icon">👩‍🏫</div>
+          <div class="feat-title">선생님 대시보드</div>
+          <div class="feat-desc">
+            학급 전체 MBTI·사상체질 분포, 학습 동기 현황을 한눈에 확인해요.<br>
+            학생별 상세 페이지에서 맞춤 지도법을 AI에게 즉시 물어볼 수 있어요.
+          </div>
+        </div>
+        <div style="display:flex; gap:10px; flex-shrink:0; flex-wrap:wrap; justify-content:center;">
+          <div style="background:rgba(255,255,255,0.07);border-radius:12px;padding:12px 16px;text-align:center;min-width:80px">
+            <div style="font-size:1.6rem;font-weight:900;color:var(--bl)">5개</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">학생 탭</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.07);border-radius:12px;padding:12px 16px;text-align:center;min-width:80px">
+            <div style="font-size:1.6rem;font-weight:900;color:var(--pk)">3개</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">교사 탭</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.07);border-radius:12px;padding:12px 16px;text-align:center;min-width:80px">
+            <div style="font-size:1.6rem;font-weight:900;color:var(--yw)">AI</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">실시간 분석</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- QR SECTION -->
+  <section class="section qr-section reveal" id="qr-section">
+    <div class="sec-label" style="text-align:center">Scan & Start</div>
+    <div class="sec-title" style="text-align:center">QR코드로 지금 바로!</div>
+    <p class="sec-sub" style="text-align:center;margin:0 auto 2.5rem">
+      휴대폰 카메라를 열고 아래 QR코드를 스캔하면 바로 시작돼요. 앱 설치 없이 브라우저에서 바로 사용해요!
+    </p>
+
+    <!-- URL INPUT -->
+    <div class="qr-url-input">
+      <input type="text" id="url-input" placeholder="앱 주소를 입력하세요 (예: https://your-app.com)" value="https://your-englishme-app.com">
+      <button onclick="generateQR()">QR 생성</button>
+    </div>
+    <p class="qr-tip">
+      <strong>💡 사용법:</strong> 위에 실제 앱 주소(URL)를 입력하고 "QR 생성"을 누르면 QR코드가 업데이트돼요.<br>
+      Claude.ai 앱 링크나 배포한 웹앱 주소를 넣으면 학생들이 바로 접속할 수 있어요.
+    </p>
+
+    <div style="display:flex; justify-content:center; margin-top:2.5rem;">
+      <div class="qr-box">
+        <div id="qr-canvas"></div>
+        <div class="qr-label">📱 스마트폰으로 스캔하세요!</div>
+        <div class="qr-sub">카메라 앱을 열고 QR코드를 비춰주세요</div>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:center; margin-top:2rem;">
+      <button onclick="downloadQR()" style="padding:12px 28px;border-radius:30px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.07);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s;" onmouseover="this.style.background='rgba(255,255,255,0.12)'" onmouseout="this.style.background='rgba(255,255,255,0.07)'">
+        💾 QR코드 이미지 저장
+      </button>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- TEACHER TIPS -->
+  <section class="section reveal">
+    <div class="sec-label">For Teachers</div>
+    <div class="sec-title">수업에서 이렇게 활용하세요!</div>
+    <p class="sec-sub">영어 시간 첫 10분, 다양하게 활용할 수 있어요.</p>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-head" style="color:var(--pk)">📺 수업 도입 활동</div>
+        <div class="tip-body">수업 시작 전 이 페이지를 스크린에 띄우고 학생들이 QR코드를 스캔해 검사를 진행하게 해요. 5~10분이면 충분해요!</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-head" style="color:var(--gn)">👥 모둠 활동 아이디어</div>
+        <div class="tip-body">같은 사상체질 학생끼리 모둠을 만들거나, 반대 유형끼리 섞어 서로의 학습법을 공유하는 토론 활동을 해봐요.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-head" style="color:var(--yw)">🏆 동기부여 챌린지</div>
+        <div class="tip-body">트래커의 XP와 연속 학습 스트릭을 활용해 한 달 챌린지를 운영해보세요. 학급 랭킹으로 선의의 경쟁이 생겨요!</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-head" style="color:var(--pu)">📊 교사 대시보드 활용</div>
+        <div class="tip-body">선생님 모드로 전환하면 학급 전체 분포와 학생별 학습 동기 현황을 확인할 수 있어요. 개별 상담에 활용해봐요.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-head" style="color:var(--or)">🎯 맞춤 과제 부여</div>
+        <div class="tip-body">학생의 추천 학습법(독해형/청취형/회화형 등)에 따라 다른 종류의 과제를 제시하는 개별화 수업에 활용해요.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-head" style="color:var(--bl)">🤖 AI 상담 활용</div>
+        <div class="tip-body">학생 카드의 "맞춤 지도법 물어보기" 버튼으로 이 학생만을 위한 피드백과 지도 전략을 AI에게 즉시 받을 수 있어요.</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <strong>🌟 EnglishMe</strong> — AI 기반 성격 통합 영어 학습 동기 플랫폼<br>
+  MBTI · 사상체질 · 에니어그램 · AI 분석 · 학습 트래커 · 교사 대시보드<br><br>
+  <span style="font-size:12px">학생들의 영어 학습 동기를 높이기 위해 만들어졌어요 💕</span>
+</footer>
+
+<script>
+// ───── QR CODE ─────
+let currentQR = null;
+
+function generateQR() {
+  const url = document.getElementById('url-input').value.trim();
+  if (!url) { alert('URL을 입력해주세요!'); return; }
+
+  const container = document.getElementById('qr-canvas');
+  container.innerHTML = '';
+
+  currentQR = new QRCode(container, {
+    text: url,
+    width: 220,
+    height: 220,
+    colorDark: '#1a1a2e',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.H
+  });
+}
+
+function downloadQR() {
+  const canvas = document.querySelector('#qr-canvas canvas');
+  const img = document.querySelector('#qr-canvas img');
+  let src = '';
+  if (canvas) src = canvas.toDataURL('image/png');
+  else if (img) src = img.src;
+  else { alert('QR코드를 먼저 생성해주세요!'); return; }
+  const a = document.createElement('a');
+  a.href = src; a.download = 'EnglishMe-QR.png'; a.click();
+}
+
+// Generate initial QR on load
+window.addEventListener('load', () => {
+  generateQR();
+});
+
+// ───── SCROLL REVEAL ─────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
