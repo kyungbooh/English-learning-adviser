@@ -7,524 +7,1103 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
-<!-- QR Code library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
 <style>
-/* ───── RESET & BASE ───── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ══════════════════════════════════════
+   GLOBAL RESET & VARIABLES
+══════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pk:#FF6B9D;--pk2:#FF8FB1;--pkl:#FFF0F5;
+  --gn:#4ECDC4;--gn2:#26A69A;--gnl:#E8FAF9;
+  --yw:#FFD166;--ywl:#FFF8E7;
+  --pu:#A78BFA;--pul:#F3EFFF;
+  --or:#FF9F43;--orl:#FFF4E8;
+  --bl:#60A5FA;--bll:#EFF6FF;
+  --rd:#FF6B6B;
+  --dark:#0d0d1a;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans KR','Nunito',sans-serif;background:var(--dark);color:#fff;overflow-x:hidden}
 
-:root {
-  --pk: #FF6B9D;
-  --pk2: #FF8FB1;
-  --pkl: #FFF0F5;
-  --gn: #4ECDC4;
-  --gnl: #E8FAF9;
-  --yw: #FFD166;
-  --ywl: #FFF8E7;
-  --pu: #A78BFA;
-  --pul: #F3EFFF;
-  --or: #FF9F43;
-  --orl: #FFF4E8;
-  --bl: #60A5FA;
-  --bll: #EFF6FF;
-  --dark: #1a1a2e;
-  --dark2: #16213e;
-  --dark3: #0f3460;
-}
+/* ══════════════════════════════════════
+   LANDING PAGE STYLES
+══════════════════════════════════════ */
+#landing{display:block}
+#app-shell{display:none}
 
-html { scroll-behavior: smooth; }
+/* Animated background orbs */
+.bg-orbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.18;animation:drift 12s ease-in-out infinite alternate}
+.orb1{width:500px;height:500px;background:var(--pk);top:-10%;left:-10%;animation-delay:0s}
+.orb2{width:400px;height:400px;background:var(--gn);bottom:-5%;right:-10%;animation-delay:-4s}
+.orb3{width:300px;height:300px;background:var(--yw);top:40%;left:30%;animation-delay:-8s}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(30px,-30px) scale(1.1)}}
 
-body {
-  font-family: 'Noto Sans KR', 'Nunito', sans-serif;
-  background: #0d0d1a;
-  color: #fff;
-  overflow-x: hidden;
-}
+.lp-wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 1.5rem}
 
-/* ───── ANIMATED BG ───── */
-.bg-orbs {
-  position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
-}
-.orb {
-  position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.18;
-  animation: drift 12s ease-in-out infinite alternate;
-}
-.orb1 { width: 500px; height: 500px; background: var(--pk); top: -10%; left: -10%; animation-delay: 0s; }
-.orb2 { width: 400px; height: 400px; background: var(--gn); bottom: -5%; right: -10%; animation-delay: -4s; }
-.orb3 { width: 300px; height: 300px; background: var(--yw); top: 40%; left: 30%; animation-delay: -8s; }
-@keyframes drift {
-  from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(30px, -30px) scale(1.1); }
-}
+/* Landing Header */
+.lp-header{padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:0;z-index:100;background:rgba(13,13,26,.9);backdrop-filter:blur(16px)}
+.lp-logo{font-family:'Nunito',sans-serif;font-size:1.2rem;font-weight:900;background:linear-gradient(135deg,var(--pk),var(--yw));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.lp-badge{padding:6px 14px;border-radius:20px;background:rgba(255,107,157,.15);border:1px solid rgba(255,107,157,.3);font-size:11px;font-weight:700;color:var(--pk)}
+.lp-start-btn{padding:8px 20px;border-radius:20px;border:none;cursor:pointer;background:linear-gradient(135deg,var(--pk),var(--or));color:#fff;font-size:13px;font-weight:800;font-family:inherit}
 
-/* ───── LAYOUT ───── */
-.wrapper { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+/* Hero */
+.lp-hero{padding:4rem 0 2.5rem;text-align:center;animation:fadeUp .8s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.lp-tag{display:inline-block;padding:6px 18px;border-radius:30px;background:rgba(255,209,102,.15);border:1px solid rgba(255,209,102,.3);color:var(--yw);font-size:12px;font-weight:700;margin-bottom:1.25rem;letter-spacing:.04em}
+.lp-h1{font-size:clamp(2rem,6vw,3.2rem);font-weight:900;line-height:1.15;margin-bottom:1rem}
+.lp-h1 span{background:linear-gradient(135deg,var(--pk),var(--or),var(--yw));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.lp-sub{font-size:clamp(.95rem,2vw,1.1rem);color:rgba(255,255,255,.65);line-height:1.7;max-width:560px;margin:0 auto 2rem}
+.lp-pills{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:2rem}
+.lp-pill{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:40px;font-size:13px;font-weight:700;border:1px solid}
+.lpp-pk{background:rgba(255,107,157,.12);border-color:rgba(255,107,157,.3);color:var(--pk2)}
+.lpp-gn{background:rgba(78,205,196,.12);border-color:rgba(78,205,196,.3);color:var(--gn)}
+.lpp-yw{background:rgba(255,209,102,.12);border-color:rgba(255,209,102,.3);color:var(--yw)}
+.lp-cta{display:inline-flex;align-items:center;gap:10px;padding:15px 34px;border-radius:50px;border:none;cursor:pointer;background:linear-gradient(135deg,var(--pk),var(--or));color:#fff;font-size:1.05rem;font-weight:800;font-family:inherit;box-shadow:0 8px 32px rgba(255,107,157,.4);transition:transform .2s,box-shadow .2s}
+.lp-cta:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(255,107,157,.5)}
 
-/* ───── HEADER ───── */
-header {
-  padding: 1.25rem 1.5rem;
-  display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(13,13,26,0.85); backdrop-filter: blur(16px);
-}
-.logo { font-family: 'Nunito', sans-serif; font-size: 1.4rem; font-weight: 900;
-  background: linear-gradient(135deg, var(--pk), var(--yw));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.header-badge {
-  padding: 6px 16px; border-radius: 20px;
-  background: rgba(255,107,157,0.15); border: 1px solid rgba(255,107,157,0.3);
-  font-size: 12px; font-weight: 700; color: var(--pk);
-}
+/* Section */
+.lp-sec{padding:4rem 0}
+.lp-sec-lbl{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--pk);margin-bottom:.6rem}
+.lp-sec-title{font-size:clamp(1.5rem,4vw,2.2rem);font-weight:900;line-height:1.2;margin-bottom:.875rem}
+.lp-sec-sub{font-size:.95rem;color:rgba(255,255,255,.6);line-height:1.7;max-width:500px}
+.lp-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
 
-/* ───── HERO ───── */
-.hero {
-  padding: 5rem 0 3rem; text-align: center;
-  animation: fadeUp 0.8s ease both;
-}
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.hero-tag {
-  display: inline-block; padding: 6px 18px; border-radius: 30px;
-  background: rgba(255,209,102,0.15); border: 1px solid rgba(255,209,102,0.3);
-  color: var(--yw); font-size: 13px; font-weight: 700; margin-bottom: 1.5rem;
-  letter-spacing: 0.04em;
-}
-.hero h1 {
-  font-size: clamp(2.2rem, 6vw, 3.6rem); font-weight: 900; line-height: 1.15;
-  margin-bottom: 1.25rem;
-}
-.hero h1 span {
-  background: linear-gradient(135deg, var(--pk), var(--or), var(--yw));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-.hero-sub {
-  font-size: clamp(1rem, 2.5vw, 1.2rem); color: rgba(255,255,255,0.65);
-  line-height: 1.7; max-width: 580px; margin: 0 auto 2.5rem;
-}
-.hero-types {
-  display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 2.5rem;
-}
-.type-pill {
-  display: flex; align-items: center; gap: 8px; padding: 10px 18px;
-  border-radius: 40px; font-size: 14px; font-weight: 700;
-  border: 1px solid; backdrop-filter: blur(8px);
-  animation: fadeUp 0.8s ease both;
-}
-.tp-pink  { background: rgba(255,107,157,0.12); border-color: rgba(255,107,157,0.3); color: var(--pk2); animation-delay: 0.1s; }
-.tp-teal  { background: rgba(78,205,196,0.12);  border-color: rgba(78,205,196,0.3);  color: var(--gn);  animation-delay: 0.2s; }
-.tp-gold  { background: rgba(255,209,102,0.12); border-color: rgba(255,209,102,0.3); color: var(--yw);  animation-delay: 0.3s; }
+/* Steps */
+.lp-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin-top:2.5rem}
+.lp-step{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:1.5rem 1.25rem;position:relative;overflow:hidden;transition:transform .2s,border-color .2s}
+.lp-step:hover{transform:translateY(-4px);border-color:rgba(255,107,157,.3)}
+.step-bg-num{font-family:'Nunito',sans-serif;font-size:3rem;font-weight:900;position:absolute;top:.5rem;right:.875rem;opacity:.07;line-height:1}
+.lp-step-ic{font-size:1.8rem;margin-bottom:.75rem}
+.lp-step-title{font-size:.95rem;font-weight:800;margin-bottom:.4rem}
+.lp-step-desc{font-size:12px;color:rgba(255,255,255,.55);line-height:1.6}
 
-.cta-btn {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 16px 36px; border-radius: 50px; border: none; cursor: pointer;
-  background: linear-gradient(135deg, var(--pk), var(--or));
-  color: #fff; font-size: 1.1rem; font-weight: 800; font-family: inherit;
-  box-shadow: 0 8px 32px rgba(255,107,157,0.4);
-  transition: transform 0.2s, box-shadow 0.2s;
-  animation: fadeUp 0.8s ease 0.4s both;
-}
-.cta-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(255,107,157,0.5); }
+/* Features */
+.lp-feat-grid{display:grid;gap:1rem;margin-top:2rem}
+.lp-feat-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:560px){.lp-feat-row{grid-template-columns:1fr}}
+.lp-feat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:1.5rem;transition:transform .2s}
+.lp-feat:hover{transform:translateY(-3px)}
+.lp-feat.wide{grid-column:1/-1;display:flex;align-items:center;gap:1.75rem}
+@media(max-width:560px){.lp-feat.wide{flex-direction:column}}
+.lp-feat.fpk{border-color:rgba(255,107,157,.2);background:rgba(255,107,157,.06)}
+.lp-feat.fgn{border-color:rgba(78,205,196,.2);background:rgba(78,205,196,.06)}
+.lp-feat.fyw{border-color:rgba(255,209,102,.2);background:rgba(255,209,102,.06)}
+.lp-feat.fpu{border-color:rgba(167,139,250,.2);background:rgba(167,139,250,.06)}
+.lp-feat.fbl{border-color:rgba(96,165,250,.2);background:rgba(96,165,250,.06)}
+.lp-feat-ic{font-size:2.2rem;margin-bottom:.75rem}
+.lp-feat-title{font-size:1rem;font-weight:800;margin-bottom:.4rem}
+.lp-feat-desc{font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6}
 
-/* ───── SECTION TITLES ───── */
-.section { padding: 5rem 0; }
-.sec-label {
-  font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--pk); margin-bottom: 0.75rem;
-}
-.sec-title { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 900; line-height: 1.2; margin-bottom: 1rem; }
-.sec-sub { font-size: 1rem; color: rgba(255,255,255,0.6); line-height: 1.7; max-width: 520px; }
+/* QR section */
+.lp-qr-sec{padding:4rem 0;text-align:center}
+.qr-box{display:inline-flex;flex-direction:column;align-items:center;background:#fff;border-radius:24px;padding:2rem;box-shadow:0 20px 80px rgba(255,107,157,.25);position:relative}
+.qr-box::before{content:'';position:absolute;inset:-2px;border-radius:26px;z-index:-1;background:linear-gradient(135deg,var(--pk),var(--or),var(--yw))}
+.qr-url-row{display:flex;gap:8px;margin:1.5rem auto 0;max-width:460px}
+.qr-url-row input{flex:1;padding:11px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:13px;font-family:inherit;outline:none;transition:border-color .2s}
+.qr-url-row input:focus{border-color:var(--pk)}
+.qr-url-row input::placeholder{color:rgba(255,255,255,.35)}
+.qr-url-row button{padding:11px 18px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(135deg,var(--pk),var(--or));color:#fff;font-size:13px;font-weight:800;font-family:inherit}
+.qr-tip{margin-top:1rem;font-size:12px;color:rgba(255,255,255,.4);line-height:1.6}
+.qr-tip strong{color:rgba(255,255,255,.7)}
+.qr-dl-btn{padding:11px 24px;border-radius:28px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:1.5rem;transition:.15s}
+.qr-dl-btn:hover{background:rgba(255,255,255,.12)}
 
-/* ───── HOW IT WORKS ───── */
-.steps {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.25rem; margin-top: 3rem;
-}
-.step-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 20px; padding: 1.75rem 1.5rem;
-  position: relative; overflow: hidden;
-  transition: transform 0.2s, border-color 0.2s;
-  animation: fadeUp 0.7s ease both;
-}
-.step-card:hover { transform: translateY(-4px); border-color: rgba(255,107,157,0.3); }
-.step-num {
-  font-family: 'Nunito', sans-serif; font-size: 3rem; font-weight: 900;
-  position: absolute; top: 0.75rem; right: 1rem; opacity: 0.08; line-height: 1;
-}
-.step-icon { font-size: 2rem; margin-bottom: 0.875rem; }
-.step-title { font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; }
-.step-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; }
-.step-card:nth-child(1) { animation-delay: 0.1s; }
-.step-card:nth-child(2) { animation-delay: 0.2s; }
-.step-card:nth-child(3) { animation-delay: 0.3s; }
-.step-card:nth-child(4) { animation-delay: 0.4s; }
+/* Teacher tips */
+.lp-tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;margin-top:2rem}
+.lp-tip{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1.125rem}
+.lp-tip-hd{font-size:13px;font-weight:800;margin-bottom:.4rem;display:flex;align-items:center;gap:7px}
+.lp-tip-bd{font-size:12px;color:rgba(255,255,255,.55);line-height:1.6}
 
-/* ───── FEATURES ───── */
-.features { display: grid; gap: 1.25rem; margin-top: 3rem; }
+/* Reveal animation */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
 
-.feat-row {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;
-}
-@media (max-width: 600px) { .feat-row { grid-template-columns: 1fr; } }
+/* Landing footer */
+.lp-footer{padding:2.5rem 1.5rem;text-align:center;border-top:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.3);font-size:12px;line-height:1.9}
+.lp-footer strong{color:rgba(255,255,255,.6)}
 
-.feat-card {
-  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 20px; padding: 1.75rem;
-  transition: transform 0.2s, border-color 0.2s;
-}
-.feat-card:hover { transform: translateY(-3px); }
-.feat-card.wide { grid-column: 1 / -1; display: flex; align-items: center; gap: 2rem; }
-@media (max-width: 600px) { .feat-card.wide { flex-direction: column; } }
 
-.feat-icon { font-size: 2.5rem; margin-bottom: 0.875rem; }
-.feat-title { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.5rem; }
-.feat-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+/* ══════════════════════════════════════
+   APP STYLES
+══════════════════════════════════════ */
+#app-shell{background:#fff;color:#1a1a1a;min-height:100vh}
+.app{max-width:480px;margin:0 auto;padding-bottom:5rem;background:#fff;min-height:100vh}
 
-.feat-card.pk { border-color: rgba(255,107,157,0.2); background: rgba(255,107,157,0.06); }
-.feat-card.gn { border-color: rgba(78,205,196,0.2); background: rgba(78,205,196,0.06); }
-.feat-card.yw { border-color: rgba(255,209,102,0.2); background: rgba(255,209,102,0.06); }
-.feat-card.pu { border-color: rgba(167,139,250,0.2); background: rgba(167,139,250,0.06); }
-.feat-card.or { border-color: rgba(255,159,67,0.2); background: rgba(255,159,67,0.06); }
-.feat-card.bl { border-color: rgba(96,165,250,0.2); background: rgba(96,165,250,0.06); }
-
-/* ───── QR SECTION ───── */
-.qr-section {
-  padding: 5rem 0; text-align: center;
-}
-.qr-box {
-  display: inline-flex; flex-direction: column; align-items: center;
-  background: #fff; border-radius: 28px; padding: 2.5rem;
-  box-shadow: 0 20px 80px rgba(255,107,157,0.25);
-  position: relative;
-}
-.qr-box::before {
-  content: ''; position: absolute; inset: -2px; border-radius: 30px; z-index: -1;
-  background: linear-gradient(135deg, var(--pk), var(--or), var(--yw));
-}
-#qr-canvas { border-radius: 12px; }
-.qr-label {
-  margin-top: 1.25rem; font-size: 14px; font-weight: 800; color: #1a1a2e;
-  display: flex; align-items: center; gap: 6px;
-}
-.qr-sub { font-size: 12px; color: #666; margin-top: 4px; }
-
-.qr-url-input {
-  display: flex; gap: 8px; margin-top: 2rem; max-width: 480px; margin-left: auto; margin-right: auto;
-}
-.qr-url-input input {
-  flex: 1; padding: 12px 16px; border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08);
-  color: #fff; font-size: 14px; font-family: inherit;
-  outline: none; transition: border-color 0.2s;
-}
-.qr-url-input input::placeholder { color: rgba(255,255,255,0.35); }
-.qr-url-input input:focus { border-color: var(--pk); }
-.qr-url-input button {
-  padding: 12px 20px; border-radius: 12px; border: none; cursor: pointer;
-  background: linear-gradient(135deg, var(--pk), var(--or));
-  color: #fff; font-size: 14px; font-weight: 800; font-family: inherit;
-  transition: transform 0.15s;
-}
-.qr-url-input button:hover { transform: scale(1.04); }
-
-.qr-tip {
-  margin-top: 1.25rem; font-size: 13px; color: rgba(255,255,255,0.45);
-  line-height: 1.6;
-}
-.qr-tip strong { color: rgba(255,255,255,0.75); }
-
-/* ───── CLASS TIPS ───── */
-.tips-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1rem; margin-top: 2rem;
-}
-.tip-card {
-  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px; padding: 1.25rem;
-}
-.tip-head { font-size: 13px; font-weight: 800; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; }
-.tip-body { font-size: 12.5px; color: rgba(255,255,255,0.55); line-height: 1.6; }
-
-/* ───── FOOTER ───── */
-footer {
-  padding: 2.5rem 1.5rem; text-align: center;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.3); font-size: 13px; line-height: 1.8;
-}
-footer strong { color: rgba(255,255,255,0.6); }
-
-/* ───── DIVIDER ───── */
-.divider {
-  height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-  margin: 0;
+/* App variables (light mode) */
+.app{
+  --apk:#FF6B9D;--apk2:#FF8FB1;--apkl:#FFF0F5;
+  --agn:#4ECDC4;--agn2:#26A69A;--agnl:#E8FAF9;
+  --ayw:#FFD166;--aywl:#FFF8E7;
+  --apu:#A78BFA;--apul:#F3EFFF;
+  --aor:#FF9F43;--aorl:#FFF4E8;
+  --abl:#60A5FA;--abll:#EFF6FF;
+  --atx:#1a1a1a;--atxs:#666;
+  --abg:#fff;--abg2:#f7f7f7;
+  --abr:#e8e8e8;
 }
 
-/* ───── SCROLL REVEAL ───── */
-.reveal {
-  opacity: 0; transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.reveal.visible { opacity: 1; transform: translateY(0); }
+/* Top bar */
+.app-topbar{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;border-bottom:1px solid var(--abr);background:#fff;position:sticky;top:0;z-index:20}
+.app-logo{font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;background:linear-gradient(135deg,var(--apk),var(--ayw));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.app-back-btn{padding:6px 14px;border-radius:18px;border:1px solid var(--abr);background:transparent;font-size:12px;font-weight:700;cursor:pointer;color:var(--atxs);font-family:inherit}
+.mode-toggle{display:flex;background:var(--abg2);border-radius:18px;padding:3px;gap:2px}
+.mode-btn{padding:5px 12px;border-radius:15px;border:none;font-size:11px;font-weight:700;cursor:pointer;background:transparent;color:var(--atxs);transition:.2s;font-family:inherit}
+.mode-btn.on{background:#fff;color:var(--atx);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+
+/* Nav */
+.app-nav{display:flex;border-bottom:1px solid var(--abr);background:#fff;position:sticky;top:45px;z-index:19}
+.nav-btn{flex:1;padding:9px 4px;font-size:11px;font-weight:700;text-align:center;cursor:pointer;border:none;background:transparent;color:var(--atxs);border-bottom:2px solid transparent;transition:.2s;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit}
+.nav-btn .ni{font-size:15px}
+.nav-btn.on{color:var(--apk);border-bottom-color:var(--apk)}
+
+/* Pages */
+.apage{display:none;padding:1rem;animation:afi .25s ease}
+.apage.on{display:block}
+@keyframes afi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* Cards */
+.acard{background:#fff;border:1px solid var(--abr);border-radius:14px;padding:1rem;margin-bottom:.875rem}
+.acard-hd{font-size:14px;font-weight:700;margin-bottom:.875rem;display:flex;align-items:center;gap:6px;color:var(--atx)}
+
+/* Hero banner */
+.app-hero{background:linear-gradient(135deg,#FF6B9D 0%,#FF9F43 50%,#FFD166 100%);border-radius:18px;padding:1.5rem 1.25rem;margin-bottom:1rem;color:#fff;position:relative;overflow:hidden}
+.app-hero::after{content:'🌟';position:absolute;right:1rem;top:50%;transform:translateY(-50%);font-size:56px;opacity:.2}
+.app-hero-sub{font-size:11px;opacity:.85;margin-bottom:.3rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.app-hero-title{font-size:19px;font-weight:900;margin-bottom:.35rem;line-height:1.2}
+.app-hero-desc{font-size:12.5px;opacity:.9;line-height:1.5}
+
+/* Motivation ring */
+.moti-wrap{display:flex;flex-direction:column;align-items:center;padding:1rem 0}
+.moti-lbl{font-size:13px;font-weight:700;color:var(--atx);margin-top:.5rem}
+.moti-sublbl{font-size:11px;color:var(--atxs);margin-top:2px}
+
+/* Chips */
+.chip{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.cpk{background:var(--apkl);color:#c0335e}
+.cgn{background:var(--agnl);color:#0f6e56}
+.cyw{background:var(--aywl);color:#9a6d00}
+.cpu{background:var(--apul);color:#5b21b6}
+.cbl{background:var(--abll);color:#1e40af}
+.cor{background:var(--aorl);color:#9a4000}
+
+/* Buttons */
+.btn-pri{width:100%;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--apk),var(--aor));color:#fff;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 10px rgba(255,107,157,.3);transition:.15s;margin-top:.5rem;font-family:inherit}
+.btn-pri:hover{filter:brightness(1.05)}
+.btn-pri:disabled{background:#ccc;box-shadow:none;cursor:default}
+.btn-sec{width:100%;padding:10px;border-radius:10px;border:1.5px solid var(--abr);background:transparent;font-size:13px;font-weight:700;cursor:pointer;color:var(--atxs);margin-top:.5rem;transition:.15s;font-family:inherit}
+.btn-sec:hover{border-color:var(--apk);color:var(--apk)}
+.btn-sm{padding:6px 12px;border-radius:8px;border:1.5px solid var(--abr);background:transparent;font-size:12px;font-weight:700;cursor:pointer;color:var(--atxs);transition:.15s;font-family:inherit}
+.btn-sm:hover{border-color:var(--apk);color:var(--apk);background:var(--apkl)}
+.btn-sm.on{background:var(--apkl);border-color:var(--apk);color:#c0335e}
+
+/* Survey steps */
+.stp{display:none}
+.stp.on{display:block}
+.prog-dots{display:flex;justify-content:center;gap:6px;margin-bottom:1.25rem}
+.pd{width:8px;height:8px;border-radius:50%;background:var(--abr);transition:.3s}
+.pd.on{background:var(--apk);transform:scale(1.3)}
+.pd.dn{background:var(--agn)}
+.sbadge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800;margin-bottom:.625rem}
+.sbp{background:var(--apkl);color:#c0335e}
+.sbg{background:var(--agnl);color:#0f6e56}
+.sbo{background:var(--aorl);color:#9a4000}
+.qs-title{font-size:17px;font-weight:900;margin-bottom:.3rem;color:var(--atx)}
+.qs-sub{font-size:12px;color:var(--atxs);margin-bottom:1rem}
+
+/* Question cards */
+.qcard{background:var(--abg2);border:1px solid var(--abr);border-radius:12px;padding:.875rem;margin-bottom:.75rem}
+.qtxt{font-size:14px;font-weight:700;margin-bottom:.75rem;line-height:1.4;color:var(--atx)}
+.opts{display:grid;gap:6px}
+.o1{grid-template-columns:1fr}
+.o2{grid-template-columns:1fr 1fr}
+.opt{padding:9px 11px;border-radius:10px;border:1.5px solid var(--abr);background:#fff;font-size:13px;cursor:pointer;text-align:left;color:var(--atx);transition:.15s;line-height:1.3;font-weight:500;font-family:inherit}
+.opt:hover{border-color:var(--apk2);background:var(--apkl)}
+.opt.opk{border-color:var(--apk);background:var(--apkl);color:#c0335e;font-weight:700}
+.opt.ogn{border-color:var(--agn);background:var(--agnl);color:#0f6e56;font-weight:700}
+.opt.opu{border-color:var(--apu);background:var(--apul);color:#5b21b6;font-weight:700}
+
+/* Slider */
+.sl-labels{display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:5px}
+input[type=range]{width:100%;accent-color:var(--apk)}
+.sl-val{text-align:center;font-size:11px;color:var(--atxs);margin-top:3px}
+
+/* Nav row */
+.nrow{display:flex;gap:8px;margin-top:1.125rem}
+.bbk{padding:10px 16px;border-radius:10px;border:1.5px solid var(--abr);background:transparent;font-size:14px;font-weight:700;cursor:pointer;color:var(--atxs);font-family:inherit}
+.bnx{flex:1;padding:11px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--apk),var(--apk2));color:#fff;font-size:14px;font-weight:800;cursor:pointer;transition:.15s;font-family:inherit}
+.bnx:disabled{background:#ccc;cursor:default}
+
+/* Result */
+.res-hero{text-align:center;background:linear-gradient(135deg,var(--apkl),var(--agnl),var(--aywl));border-radius:16px;padding:1.5rem 1rem;margin-bottom:1rem}
+.res-em{font-size:50px;margin-bottom:.5rem;display:block}
+.res-nm{font-size:21px;font-weight:900;color:#333;margin-bottom:.4rem}
+.res-sb{font-size:13px;color:#666;line-height:1.5}
+
+/* Bars */
+.brow{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.blbl{font-size:12px;color:var(--atxs);min-width:64px;font-weight:600}
+.btrk{flex:1;height:8px;background:var(--abr);border-radius:4px;overflow:hidden}
+.bfil{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.bpct{font-size:12px;font-weight:800;min-width:30px;text-align:right}
+
+/* Method grid */
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mc{background:var(--abg2);border:1px solid var(--abr);border-radius:12px;padding:.875rem;cursor:pointer;transition:.15s;text-align:center}
+.mc:hover{border-color:var(--apk2);background:var(--apkl);transform:translateY(-1px)}
+.mc-ic{font-size:24px;margin-bottom:5px}
+.mc-nm{font-size:12px;font-weight:800;color:var(--atx);margin-bottom:2px}
+.mc-ds{font-size:11px;color:var(--atxs);line-height:1.3}
+
+/* AI box */
+.aibox{background:linear-gradient(135deg,var(--apul),var(--abll));border:1px solid rgba(167,139,250,.25);border-radius:14px;padding:1rem;margin:.875rem 0}
+.ailbl{font-size:11px;font-weight:800;color:#5b21b6;margin-bottom:.5rem;display:flex;align-items:center;gap:4px}
+.aitxt{font-size:13px;color:#374151;line-height:1.6}
+
+/* Goals */
+.goal-card{border:1.5px solid var(--abr);border-radius:12px;padding:.875rem;margin-bottom:.75rem;position:relative;transition:.15s;background:#fff}
+.goal-card.done{opacity:.65}
+.gc-title{font-size:13px;font-weight:800;margin-bottom:3px;display:flex;align-items:center;gap:6px;color:var(--atx)}
+.gc-sub{font-size:11px;color:var(--atxs);line-height:1.35}
+.gc-prog{height:5px;background:var(--abr);border-radius:3px;margin-top:.625rem;overflow:hidden}
+.gc-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--agn),var(--abl));transition:width .8s ease}
+.gc-pct{font-size:11px;color:var(--agn2);font-weight:800;margin-top:4px}
+
+/* Tracker */
+.streak-row{display:flex;justify-content:space-around;background:linear-gradient(135deg,var(--apkl),var(--aywl));border-radius:14px;padding:1rem;margin-bottom:.875rem}
+.sr-item{text-align:center}
+.sr-num{font-size:24px;font-weight:900;color:#333}
+.sr-lbl{font-size:10px;color:#666;margin-top:2px;font-weight:700}
+.xp-card{background:var(--abg2);border-radius:12px;padding:.875rem;margin-bottom:.875rem}
+.xp-top{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:6px;color:var(--atx)}
+.xp-trk{height:10px;background:var(--abr);border-radius:5px;overflow:hidden}
+.xp-fil{height:100%;background:linear-gradient(90deg,var(--apk),var(--ayw));border-radius:5px;transition:width 1s ease}
+.wgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:.75rem}
+.wday{aspect-ratio:1;border-radius:7px;border:1px solid var(--abr);background:var(--abg2);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;color:var(--atxs);cursor:pointer;transition:.15s;font-weight:600}
+.wday.dn{background:var(--agnl);border-color:var(--agn);color:#0f6e56}
+.wday.td{border:2px solid var(--apk);color:var(--apk)}
+.wday .we{font-size:13px}
+.act-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.875rem}
+.ach{padding:7px 12px;border-radius:8px;border:1.5px solid var(--abr);background:#fff;font-size:12px;font-weight:700;cursor:pointer;color:var(--atxs);transition:.15s;font-family:inherit}
+.ach:hover{border-color:var(--apk);color:var(--apk);background:var(--apkl)}
+.ach.on{background:var(--apkl);border-color:var(--apk);color:#c0335e}
+.log-row{display:flex;align-items:center;gap:10px;padding:.75rem;background:var(--abg2);border-radius:10px;margin-bottom:6px}
+.lr-ic{font-size:18px}
+.lr-tx{flex:1}
+.lr-nm{font-size:13px;font-weight:700;color:var(--atx)}
+.lr-dt{font-size:11px;color:var(--atxs)}
+.lr-xp{font-size:12px;font-weight:800;color:var(--agn2)}
+
+/* Teacher */
+.t-stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:.875rem}
+.ts-card{background:var(--abg2);border-radius:12px;padding:.875rem;text-align:center}
+.ts-num{font-size:22px;font-weight:900;color:var(--atx)}
+.ts-lbl{font-size:10px;color:var(--atxs);margin-top:2px;font-weight:700}
+.stu-card{display:flex;align-items:center;gap:10px;padding:.75rem;background:var(--abg2);border-radius:12px;margin-bottom:6px;cursor:pointer;transition:.15s;border:1px solid var(--abr)}
+.stu-card:hover{border-color:var(--apk2);background:var(--apkl)}
+.stu-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.stu-info{flex:1}
+.stu-nm{font-size:13px;font-weight:800;margin-bottom:2px;color:var(--atx)}
+.stu-ty{font-size:11px;color:var(--atxs)}
+.stu-xp{font-size:12px;font-weight:800;color:var(--agn2)}
+.stu-str{font-size:11px;color:var(--aor);font-weight:700}
+.bar-mini{height:5px;background:var(--abr);border-radius:3px;margin-top:4px;width:80px;overflow:hidden}
+.bm-fil{height:100%;border-radius:3px}
+
+/* Modal */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:50;align-items:flex-end;justify-content:center}
+.modal-bg.on{display:flex}
+.modal{background:#fff;border-radius:20px 20px 0 0;padding:1.5rem 1.25rem;width:100%;max-width:480px;max-height:80vh;overflow-y:auto;animation:slideUp .3s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-hd{font-size:16px;font-weight:900;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;color:var(--atx)}
+.modal-close{background:var(--abg2);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.goal-form input,.goal-form select,.goal-form textarea{width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid var(--abr);background:var(--abg2);font-size:13px;color:var(--atx);margin-bottom:.625rem;font-family:inherit;outline:none}
+.goal-form label{font-size:12px;font-weight:800;color:var(--atxs);margin-bottom:3px;display:block}
+
+/* Spinner */
+.spin-wrap{display:flex;flex-direction:column;align-items:center;padding:3rem 1rem;gap:.875rem}
+.spinner{width:38px;height:38px;border:3px solid var(--abr);border-top-color:var(--apk);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:rgba(30,30,30,.95);color:#fff;padding:9px 20px;border-radius:20px;font-size:13px;font-weight:700;z-index:100;transition:transform .3s;pointer-events:none;backdrop-filter:blur(8px);max-width:90vw;text-align:center}
+.toast.on{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 
-<!-- BACKGROUND ORBS -->
+<!-- ══════════════════════════════
+     LANDING PAGE
+══════════════════════════════ -->
+<div id="landing">
 <div class="bg-orbs">
   <div class="orb orb1"></div>
   <div class="orb orb2"></div>
   <div class="orb orb3"></div>
 </div>
 
-<!-- HEADER -->
-<header>
-  <div class="logo">🌟 English-learning-adviser</div>
-  <div class="header-badge">중·고등학생 맞춤 영어 학습 동기 앱</div>
+<header class="lp-header">
+  <div class="lp-logo">🌟 English-learning-adviser</div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <div class="lp-badge" style="display:none" id="lp-badge-desk">중·고등학생 맞춤 AI 학습 동기 앱</div>
+    <button class="lp-start-btn" onclick="openApp()">앱 시작하기 →</button>
+  </div>
 </header>
 
-<!-- HERO -->
-<div class="wrapper">
-  <section class="hero">
-    <div class="hero-tag">✨ AI 기반 성격 통합 분석 플랫폼</div>
-    <h1>나만의 방법으로<br><span>영어에 빠져들어요!</span></h1>
-    <p class="hero-sub">
-      MBTI · 사상체질 · 에니어그램, 세 가지 성격 체계를 동시에 분석해<br>
-      학생 개개인에게 딱 맞는 영어 학습법과 동기부여 방법을 찾아줍니다.
-    </p>
-    <div class="hero-types">
-      <div class="type-pill tp-pink">🧠 MBTI <small style="opacity:.7">16가지 인지 성향</small></div>
-      <div class="type-pill tp-teal">☯️ 사상체질 <small style="opacity:.7">4가지 에너지 기질</small></div>
-      <div class="type-pill tp-gold">🔢 에니어그램 <small style="opacity:.7">9가지 핵심 동기</small></div>
+<div class="lp-wrap">
+
+  <!-- HERO -->
+  <section class="lp-hero">
+    <div class="lp-tag">✨ AI 기반 성격 통합 분석 플랫폼</div>
+    <h1 class="lp-h1">나만의 방법으로<br><span>영어에 빠져들어요!</span></h1>
+    <p class="lp-sub">MBTI · 사상체질 · 에니어그램, 세 가지 성격 체계를 동시에 분석해<br>학생 개개인에게 딱 맞는 영어 학습법과 동기부여 방법을 찾아줍니다.</p>
+    <div class="lp-pills">
+      <div class="lp-pill lpp-pk">🧠 MBTI <small style="opacity:.7">16가지 인지 성향</small></div>
+      <div class="lp-pill lpp-gn">☯️ 사상체질 <small style="opacity:.7">4가지 에너지 기질</small></div>
+      <div class="lp-pill lpp-yw">🔢 에니어그램 <small style="opacity:.7">9가지 핵심 동기</small></div>
     </div>
-    <button class="cta-btn" onclick="document.getElementById('qr-section').scrollIntoView({behavior:'smooth'})">
-      📱 지금 바로 시작하기
-    </button>
+    <button class="lp-cta" onclick="openApp()">📱 지금 바로 검사 시작하기</button>
   </section>
 
-  <div class="divider"></div>
+  <div class="lp-divider"></div>
 
   <!-- HOW IT WORKS -->
-  <section class="section reveal">
-    <div class="sec-label">How It Works</div>
-    <div class="sec-title">어떻게 사용하나요?</div>
-    <p class="sec-sub">딱 4단계만 따라하면 나만의 영어 학습법을 찾을 수 있어요!</p>
-    <div class="steps">
-      <div class="step-card">
-        <div class="step-num">1</div>
-        <div class="step-icon">📱</div>
-        <div class="step-title">QR코드 스캔</div>
-        <div class="step-desc">휴대폰 카메라로 QR코드를 스캔해서 앱에 접속해요.</div>
-      </div>
-      <div class="step-card">
-        <div class="step-num">2</div>
-        <div class="step-icon">📝</div>
-        <div class="step-title">성격 검사 (3단계)</div>
-        <div class="step-desc">MBTI → 사상체질 → 에니어그램 순서로 솔직하게 답해요.</div>
-      </div>
-      <div class="step-card">
-        <div class="step-num">3</div>
-        <div class="step-icon">🤖</div>
-        <div class="step-title">AI 분석 결과</div>
-        <div class="step-desc">AI가 세 체계를 통합 분석해 나만의 학습 유형을 알려줘요.</div>
-      </div>
-      <div class="step-card">
-        <div class="step-num">4</div>
-        <div class="step-icon">🎯</div>
-        <div class="step-title">목표 설정 & 트래킹</div>
-        <div class="step-desc">맞춤 학습법으로 목표를 세우고 매일 학습을 기록해요.</div>
-      </div>
+  <section class="lp-sec reveal">
+    <div class="lp-sec-lbl">How It Works</div>
+    <div class="lp-sec-title">어떻게 사용하나요?</div>
+    <p class="lp-sec-sub">딱 4단계만 따라하면 나만의 영어 학습법을 찾을 수 있어요!</p>
+    <div class="lp-steps">
+      <div class="lp-step"><div class="step-bg-num">1</div><div class="lp-step-ic">📱</div><div class="lp-step-title">QR코드 스캔</div><div class="lp-step-desc">휴대폰 카메라로 QR코드를 스캔하거나, 위 버튼을 눌러 바로 시작해요.</div></div>
+      <div class="lp-step"><div class="step-bg-num">2</div><div class="lp-step-ic">📝</div><div class="lp-step-title">성격 검사 (3단계)</div><div class="lp-step-desc">MBTI → 사상체질 → 에니어그램 순서로 솔직하게 답해요.</div></div>
+      <div class="lp-step"><div class="step-bg-num">3</div><div class="lp-step-ic">🤖</div><div class="lp-step-title">AI 분석 결과</div><div class="lp-step-desc">AI가 세 체계를 통합 분석해 나만의 학습 유형과 동기 지수를 알려줘요.</div></div>
+      <div class="lp-step"><div class="step-bg-num">4</div><div class="lp-step-ic">🎯</div><div class="lp-step-title">목표 설정 & 트래킹</div><div class="lp-step-desc">맞춤 학습법으로 목표를 세우고 매일 학습을 기록해요.</div></div>
     </div>
   </section>
 
-  <div class="divider"></div>
+  <div class="lp-divider"></div>
 
   <!-- FEATURES -->
-  <section class="section reveal">
-    <div class="sec-label">Features</div>
-    <div class="sec-title">무엇을 할 수 있나요?</div>
-    <p class="sec-sub">학생과 선생님 모두를 위한 기능이 담겨 있어요.</p>
-
-    <div class="features" style="margin-top: 2.5rem;">
-      <div class="feat-row">
-        <div class="feat-card pk">
-          <div class="feat-icon">🧬</div>
-          <div class="feat-title">성격 통합 분석</div>
-          <div class="feat-desc">MBTI·사상체질·에니어그램을 동시에 분석해 세상에 하나뿐인 나만의 학습자 유형을 만들어줘요.</div>
-        </div>
-        <div class="feat-card gn">
-          <div class="feat-icon">💪</div>
-          <div class="feat-title">학습 동기 지수</div>
-          <div class="feat-desc">AI가 성격 분석을 바탕으로 나의 영어 학습 동기 지수(%)를 측정하고 동기 회복 처방전을 제공해요.</div>
-        </div>
+  <section class="lp-sec reveal">
+    <div class="lp-sec-lbl">Features</div>
+    <div class="lp-sec-title">무엇을 할 수 있나요?</div>
+    <p class="lp-sec-sub">학생과 선생님 모두를 위한 기능이 담겨 있어요.</p>
+    <div class="lp-feat-grid">
+      <div class="lp-feat-row">
+        <div class="lp-feat fpk"><div class="lp-feat-ic">🧬</div><div class="lp-feat-title">성격 통합 분석</div><div class="lp-feat-desc">MBTI·사상체질·에니어그램을 동시에 분석해 세상에 하나뿐인 나만의 학습자 유형을 만들어줘요.</div></div>
+        <div class="lp-feat fgn"><div class="lp-feat-ic">💪</div><div class="lp-feat-title">학습 동기 지수</div><div class="lp-feat-desc">AI가 성격 분석을 바탕으로 나의 영어 학습 동기 지수(%)를 측정하고 동기 회복 처방전을 제공해요.</div></div>
       </div>
-      <div class="feat-row">
-        <div class="feat-card yw">
-          <div class="feat-icon">🎯</div>
-          <div class="feat-title">맞춤 학습법 추천</div>
-          <div class="feat-desc">4가지 맞춤 학습법과 오늘 당장 할 수 있는 5분 미션을 제안해줘요.</div>
-        </div>
-        <div class="feat-card pu">
-          <div class="feat-icon">📅</div>
-          <div class="feat-title">학습 목표 & 트래커</div>
-          <div class="feat-desc">목표를 설정하고 매일 학습을 기록해요. XP를 모아 레벨업하는 게임처럼 동기가 유지돼요!</div>
-        </div>
+      <div class="lp-feat-row">
+        <div class="lp-feat fyw"><div class="lp-feat-ic">🎯</div><div class="lp-feat-title">맞춤 학습법 추천</div><div class="lp-feat-desc">4가지 맞춤 학습법과 오늘 당장 할 수 있는 5분 미션을 제안해줘요.</div></div>
+        <div class="lp-feat fpu"><div class="lp-feat-ic">📅</div><div class="lp-feat-title">학습 목표 & 트래커</div><div class="lp-feat-desc">목표를 설정하고 매일 학습을 기록해요. XP를 모아 레벨업하는 게임처럼 동기가 유지돼요!</div></div>
       </div>
-      <div class="feat-card wide bl">
-        <div>
-          <div class="feat-icon">👩‍🏫</div>
-          <div class="feat-title">선생님 대시보드</div>
-          <div class="feat-desc">
-            학급 전체 MBTI·사상체질 분포, 학습 동기 현황을 한눈에 확인해요.<br>
-            학생별 상세 페이지에서 맞춤 지도법을 AI에게 즉시 물어볼 수 있어요.
-          </div>
-        </div>
-        <div style="display:flex; gap:10px; flex-shrink:0; flex-wrap:wrap; justify-content:center;">
-          <div style="background:rgba(255,255,255,0.07);border-radius:12px;padding:12px 16px;text-align:center;min-width:80px">
-            <div style="font-size:1.6rem;font-weight:900;color:var(--bl)">5개</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">학생 탭</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.07);border-radius:12px;padding:12px 16px;text-align:center;min-width:80px">
-            <div style="font-size:1.6rem;font-weight:900;color:var(--pk)">3개</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">교사 탭</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.07);border-radius:12px;padding:12px 16px;text-align:center;min-width:80px">
-            <div style="font-size:1.6rem;font-weight:900;color:var(--yw)">AI</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">실시간 분석</div>
-          </div>
+      <div class="lp-feat wide fbl">
+        <div><div class="lp-feat-ic">👩‍🏫</div><div class="lp-feat-title">선생님 대시보드</div><div class="lp-feat-desc">학급 전체 MBTI·사상체질 분포, 학습 동기 현황을 한눈에 확인해요.<br>학생별 상세 페이지에서 맞춤 지도법을 AI에게 즉시 물어볼 수 있어요.</div></div>
+        <div style="display:flex;gap:10px;flex-shrink:0;flex-wrap:wrap;justify-content:center">
+          <div style="background:rgba(255,255,255,.07);border-radius:12px;padding:12px 16px;text-align:center;min-width:76px"><div style="font-size:1.5rem;font-weight:900;color:#93c5fd">5개</div><div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:2px">학생 탭</div></div>
+          <div style="background:rgba(255,255,255,.07);border-radius:12px;padding:12px 16px;text-align:center;min-width:76px"><div style="font-size:1.5rem;font-weight:900;color:#f9a8d4">3개</div><div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:2px">교사 탭</div></div>
+          <div style="background:rgba(255,255,255,.07);border-radius:12px;padding:12px 16px;text-align:center;min-width:76px"><div style="font-size:1.5rem;font-weight:900;color:#fde68a">AI</div><div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:2px">실시간 분석</div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="divider"></div>
+  <div class="lp-divider"></div>
 
-  <!-- QR SECTION -->
-  <section class="section qr-section reveal" id="qr-section">
-    <div class="sec-label" style="text-align:center">Scan & Start</div>
-    <div class="sec-title" style="text-align:center">QR코드로 지금 바로!</div>
-    <p class="sec-sub" style="text-align:center;margin:0 auto 2.5rem">
-      휴대폰 카메라를 열고 아래 QR코드를 스캔하면 바로 시작돼요. 앱 설치 없이 브라우저에서 바로 사용해요!
-    </p>
+  <!-- QR -->
+  <section class="lp-qr-sec reveal" id="qr-section">
+    <div class="lp-sec-lbl" style="text-align:center">Scan &amp; Start</div>
+    <div class="lp-sec-title" style="text-align:center">QR코드로 지금 바로!</div>
+    <p class="lp-sec-sub" style="text-align:center;margin:0 auto 1.5rem">휴대폰 카메라로 아래 QR코드를 스캔하면 바로 시작돼요. 앱 설치 없이 브라우저에서 바로 사용해요!</p>
 
-    <!-- URL INPUT -->
-    <div class="qr-url-input">
-      <input type="text" id="url-input" placeholder="앱 주소를 입력하세요 (예: https://your-app.com)" value="https://kyungbooh.github.io/English-learning-adviser/">
-      <button onclick="generateQR()">QR 생성</button>
+    <div class="qr-url-row">
+      <input type="text" id="qr-url" value="https://kyungbooh.github.io/English-learning-adviser/" placeholder="앱 주소 입력">
+      <button onclick="makeQR()">QR 생성</button>
     </div>
-    <p class="qr-tip">
-      <strong>💡 사용법:</strong> 위에 실제 앱 주소(URL)를 입력하고 "QR 생성"을 누르면 QR코드가 업데이트돼요.<br>
-      Claude.ai 앱 링크나 배포한 웹앱 주소를 넣으면 학생들이 바로 접속할 수 있어요.
-    </p>
+    <p class="qr-tip"><strong>💡 팁:</strong> URL을 바꾸고 QR 생성을 누르면 QR코드가 업데이트돼요.</p>
 
-    <div style="display:flex; justify-content:center; margin-top:2.5rem;">
+    <div style="display:flex;justify-content:center;margin-top:2rem">
       <div class="qr-box">
         <div id="qr-canvas"></div>
-        <div class="qr-label">📱 스마트폰으로 스캔하세요!</div>
-        <div class="qr-sub">카메라 앱을 열고 QR코드를 비춰주세요</div>
+        <div style="margin-top:1rem;font-size:14px;font-weight:800;color:#1a1a2e;display:flex;align-items:center;gap:6px">📱 스마트폰으로 스캔하세요!</div>
+        <div style="font-size:12px;color:#888;margin-top:3px">카메라 앱을 열고 QR코드를 비춰주세요</div>
       </div>
     </div>
-
-    <div style="display:flex; justify-content:center; margin-top:2rem;">
-      <button onclick="downloadQR()" style="padding:12px 28px;border-radius:30px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.07);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s;" onmouseover="this.style.background='rgba(255,255,255,0.12)'" onmouseout="this.style.background='rgba(255,255,255,0.07)'">
-        💾 QR코드 이미지 저장
-      </button>
+    <div style="display:flex;justify-content:center;margin-top:1.5rem">
+      <button class="qr-dl-btn" onclick="dlQR()">💾 QR코드 이미지 저장</button>
     </div>
   </section>
 
-  <div class="divider"></div>
+  <div class="lp-divider"></div>
 
   <!-- TEACHER TIPS -->
-  <section class="section reveal">
-    <div class="sec-label">For Teachers</div>
-    <div class="sec-title">수업에서 이렇게 활용하세요!</div>
-    <p class="sec-sub">영어 시간 첫 10분, 다양하게 활용할 수 있어요.</p>
-    <div class="tips-grid">
-      <div class="tip-card">
-        <div class="tip-head" style="color:var(--pk)">📺 수업 도입 활동</div>
-        <div class="tip-body">수업 시작 전 이 페이지를 스크린에 띄우고 학생들이 QR코드를 스캔해 검사를 진행하게 해요. 5~10분이면 충분해요!</div>
-      </div>
-      <div class="tip-card">
-        <div class="tip-head" style="color:var(--gn)">👥 모둠 활동 아이디어</div>
-        <div class="tip-body">같은 사상체질 학생끼리 모둠을 만들거나, 반대 유형끼리 섞어 서로의 학습법을 공유하는 토론 활동을 해봐요.</div>
-      </div>
-      <div class="tip-card">
-        <div class="tip-head" style="color:var(--yw)">🏆 동기부여 챌린지</div>
-        <div class="tip-body">트래커의 XP와 연속 학습 스트릭을 활용해 한 달 챌린지를 운영해보세요. 학급 랭킹으로 선의의 경쟁이 생겨요!</div>
-      </div>
-      <div class="tip-card">
-        <div class="tip-head" style="color:var(--pu)">📊 교사 대시보드 활용</div>
-        <div class="tip-body">선생님 모드로 전환하면 학급 전체 분포와 학생별 학습 동기 현황을 확인할 수 있어요. 개별 상담에 활용해봐요.</div>
-      </div>
-      <div class="tip-card">
-        <div class="tip-head" style="color:var(--or)">🎯 맞춤 과제 부여</div>
-        <div class="tip-body">학생의 추천 학습법(독해형/청취형/회화형 등)에 따라 다른 종류의 과제를 제시하는 개별화 수업에 활용해요.</div>
-      </div>
-      <div class="tip-card">
-        <div class="tip-head" style="color:var(--bl)">🤖 AI 상담 활용</div>
-        <div class="tip-body">학생 카드의 "맞춤 지도법 물어보기" 버튼으로 이 학생만을 위한 피드백과 지도 전략을 AI에게 즉시 받을 수 있어요.</div>
-      </div>
+  <section class="lp-sec reveal">
+    <div class="lp-sec-lbl">For Teachers</div>
+    <div class="lp-sec-title">수업에서 이렇게 활용하세요!</div>
+    <p class="lp-sec-sub">영어 시간 첫 10분, 다양하게 활용할 수 있어요.</p>
+    <div class="lp-tips">
+      <div class="lp-tip"><div class="lp-tip-hd" style="color:#FF6B9D">📺 수업 도입 활동</div><div class="lp-tip-bd">이 페이지를 스크린에 띄우고 학생들이 QR코드를 스캔해 검사를 진행하게 해요. 5~10분이면 충분해요!</div></div>
+      <div class="lp-tip"><div class="lp-tip-hd" style="color:#4ECDC4">👥 모둠 활동 아이디어</div><div class="lp-tip-bd">같은 사상체질끼리 모둠을 만들거나, 반대 유형끼리 섞어 학습법을 공유하는 토론 활동을 해봐요.</div></div>
+      <div class="lp-tip"><div class="lp-tip-hd" style="color:#FFD166">🏆 동기부여 챌린지</div><div class="lp-tip-bd">XP와 연속 학습 스트릭을 활용해 한 달 챌린지를 운영해보세요. 학급 랭킹으로 선의의 경쟁이 생겨요!</div></div>
+      <div class="lp-tip"><div class="lp-tip-hd" style="color:#A78BFA">📊 교사 대시보드 활용</div><div class="lp-tip-bd">선생님 모드로 전환하면 학급 전체 분포와 학습 동기 현황을 확인해 개별 상담에 활용해봐요.</div></div>
+      <div class="lp-tip"><div class="lp-tip-hd" style="color:#FF9F43">🎯 맞춤 과제 부여</div><div class="lp-tip-bd">학생의 추천 학습법(독해형/청취형/회화형 등)에 따라 개별화 과제를 제시하는 수업에 활용해요.</div></div>
+      <div class="lp-tip"><div class="lp-tip-hd" style="color:#60A5FA">🤖 AI 상담 활용</div><div class="lp-tip-bd">"맞춤 지도법 물어보기" 버튼으로 이 학생만을 위한 피드백과 지도 전략을 AI에게 즉시 받을 수 있어요.</div></div>
     </div>
   </section>
 
-</div>
+</div><!-- /lp-wrap -->
 
-<!-- FOOTER -->
-<footer>
+<footer class="lp-footer">
   <strong>🌟 English-learning-adviser</strong> — AI 기반 성격 통합 영어 학습 동기 플랫폼<br>
   MBTI · 사상체질 · 에니어그램 · AI 분석 · 학습 트래커 · 교사 대시보드<br><br>
-  <span style="font-size:12px">학생들의 영어 학습 동기를 높이기 위해 만들어졌어요 💕</span>
+  <span style="font-size:11px">학생들의 영어 학습 동기를 높이기 위해 만들어졌어요 💕</span>
 </footer>
+</div><!-- /landing -->
+
+
+<!-- ══════════════════════════════
+     APP SHELL
+══════════════════════════════ -->
+<div id="app-shell">
+<div class="app" id="app">
+
+<div class="toast" id="toast"></div>
+
+<!-- TOP BAR -->
+<div class="app-topbar">
+  <button class="app-back-btn" onclick="closeApp()">← 소개 페이지</button>
+  <div class="app-logo">🌟 ELA</div>
+  <div class="mode-toggle">
+    <button class="mode-btn on" id="mb-stu" onclick="setMode('student')">학생</button>
+    <button class="mode-btn" id="mb-tea" onclick="setMode('teacher')">선생님</button>
+  </div>
+</div>
+
+<!-- STUDENT NAV -->
+<div class="app-nav" id="snav">
+  <button class="nav-btn on" id="sn0" onclick="goPage(0)"><span class="ni">🏠</span>홈</button>
+  <button class="nav-btn" id="sn1" onclick="goPage(1)"><span class="ni">📝</span>검사</button>
+  <button class="nav-btn" id="sn2" onclick="goPage(2)"><span class="ni">✨</span>내 유형</button>
+  <button class="nav-btn" id="sn3" onclick="goPage(3)"><span class="ni">🎯</span>목표</button>
+  <button class="nav-btn" id="sn4" onclick="goPage(4)"><span class="ni">📅</span>트래커</button>
+</div>
+
+<!-- TEACHER NAV -->
+<div class="app-nav" id="tnav" style="display:none">
+  <button class="nav-btn on" id="tn0" onclick="goTPage(0)"><span class="ni">📊</span>대시보드</button>
+  <button class="nav-btn" id="tn1" onclick="goTPage(1)"><span class="ni">👥</span>학생 목록</button>
+  <button class="nav-btn" id="tn2" onclick="goTPage(2)"><span class="ni">🏆</span>성취 현황</button>
+</div>
+
+<!-- ── PAGE 0: HOME ── -->
+<div class="apage on" id="p0">
+  <div class="app-hero">
+    <div class="app-hero-sub">영어 학습 동기 플랫폼</div>
+    <div class="app-hero-title">나만의 방법으로<br>영어에 빠져들어요!</div>
+    <div class="app-hero-desc">성격 분석으로 찾은 내 학습 유형으로<br>영어가 재미있어질 수 있어요 😊</div>
+  </div>
+  <div id="home-status"></div>
+  <div class="acard" id="moti-card">
+    <div class="acard-hd">💪 나의 학습 동기 지수</div>
+    <div class="moti-wrap">
+      <svg width="120" height="120" viewBox="0 0 120 120" style="transform:rotate(-90deg)">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="#eee" stroke-width="10"/>
+        <circle id="moti-ring" cx="60" cy="60" r="50" fill="none" stroke="url(#mrg)" stroke-width="10"
+          stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314" style="transition:stroke-dashoffset 1.5s ease"/>
+        <defs><linearGradient id="mrg" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#FF6B9D"/><stop offset="100%" stop-color="#FFD166"/>
+        </linearGradient></defs>
+      </svg>
+      <div id="moti-pct" style="margin-top:-70px;font-size:26px;font-weight:900;text-align:center;color:#333">--</div>
+      <div style="margin-top:54px"></div>
+      <div class="moti-lbl" id="moti-lbl">검사를 먼저 해보세요!</div>
+      <div class="moti-sublbl" id="moti-sub">성격 분석으로 동기 지수를 확인해요</div>
+    </div>
+    <button class="btn-pri" onclick="goPage(1);sstep(0)" id="start-btn">지금 검사 시작하기 →</button>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.875rem">
+    <div class="acard" style="cursor:pointer;margin-bottom:0" onclick="goPage(3)"><div style="font-size:22px;margin-bottom:5px">🎯</div><div style="font-size:13px;font-weight:800;color:var(--atx)">학습 목표</div><div style="font-size:11px;color:var(--atxs);margin-top:2px">나만의 목표를 설정해요</div></div>
+    <div class="acard" style="cursor:pointer;margin-bottom:0" onclick="goPage(4)"><div style="font-size:22px;margin-bottom:5px">📅</div><div style="font-size:13px;font-weight:800;color:var(--atx)">학습 트래커</div><div style="font-size:11px;color:var(--atxs);margin-top:2px" id="home-streak">오늘 학습을 기록해요</div></div>
+  </div>
+  <div class="aibox"><div class="ailbl">💡 오늘의 영어 동기 메시지</div><div class="aitxt" id="daily-tip">"매일 5분이라도 영어에 노출되면 뇌는 언어를 자연스럽게 흡수해요. 오늘 영어 노래 한 곡 들어볼까요? 🎵"</div></div>
+</div>
+
+<!-- ── PAGE 1: SURVEY ── -->
+<div class="apage" id="p1">
+  <!-- STEP 0: MBTI -->
+  <div class="stp on" id="s0">
+    <div class="prog-dots"><div class="pd on"></div><div class="pd"></div><div class="pd"></div></div>
+    <div class="sbadge sbp">① MBTI — 나의 인지 성향</div>
+    <div class="qs-title">나는 어떤 스타일?</div>
+    <div class="qs-sub">솔직하게 답할수록 정확해져요 😊</div>
+    <div class="qcard"><div class="qtxt">⚡ 에너지를 어디서 얻나요?</div>
+      <div class="sl-labels"><span style="color:var(--apk)">E 외향형</span><span style="color:var(--abl)">I 내향형</span></div>
+      <input type="range" min="0" max="100" value="50" id="sl-ei" oninput="sl('ei',this.value)">
+      <div class="sl-val" id="lv-ei">중간이에요</div>
+    </div>
+    <div class="qcard"><div class="qtxt">👀 공부할 때 어떻게 이해해요?</div>
+      <div class="sl-labels"><span style="color:var(--apk)">S 감각형</span><span style="color:var(--abl)">N 직관형</span></div>
+      <input type="range" min="0" max="100" value="50" id="sl-sn" oninput="sl('sn',this.value)">
+      <div class="sl-val" id="lv-sn">중간이에요</div>
+    </div>
+    <div class="qcard"><div class="qtxt">💭 선택할 때 뭘 더 따라요?</div>
+      <div class="sl-labels"><span style="color:var(--apk)">T 논리형</span><span style="color:var(--abl)">F 감정형</span></div>
+      <input type="range" min="0" max="100" value="50" id="sl-tf" oninput="sl('tf',this.value)">
+      <div class="sl-val" id="lv-tf">중간이에요</div>
+    </div>
+    <div class="qcard"><div class="qtxt">🗓️ 공부 계획 스타일은?</div>
+      <div class="sl-labels"><span style="color:var(--apk)">J 계획형</span><span style="color:var(--abl)">P 자율형</span></div>
+      <input type="range" min="0" max="100" value="50" id="sl-jp" oninput="sl('jp',this.value)">
+      <div class="sl-val" id="lv-jp">중간이에요</div>
+    </div>
+    <div class="nrow"><button class="bnx" style="flex:1" onclick="sstep(1)">다음 →</button></div>
+  </div>
+
+  <!-- STEP 1: SAJU -->
+  <div class="stp" id="s1">
+    <div class="prog-dots"><div class="pd dn"></div><div class="pd on"></div><div class="pd"></div></div>
+    <div class="sbadge sbg">② 사상체질 — 나의 에너지 기질</div>
+    <div class="qs-title">내 기질은 어떤 타입?</div>
+    <div class="qs-sub">직감적으로 골라봐요 🌿</div>
+    <div class="qcard"><div class="qtxt">📚 영어 공부할 때 나는…</div>
+      <div class="opts o1" id="gs1">
+        <button class="opt" onclick="po('s1','TY',this,'ogn')" data-g="s1">🗂️ 노트에 꼼꼼히 정리하면서 차근차근 공부해요</button>
+        <button class="opt" onclick="po('s1','SO',this,'ogn')" data-g="s1">⚡ 전체 흐름을 빠르게 파악하고 바로 써봐요</button>
+        <button class="opt" onclick="po('s1','TA',this,'ogn')" data-g="s1">🎯 실제 상황에서 직접 써보면서 익혀요</button>
+        <button class="opt" onclick="po('s1','SO2',this,'ogn')" data-g="s1">👫 친구나 선생님과 함께 공부해야 잘돼요</button>
+      </div>
+    </div>
+    <div class="qcard"><div class="qtxt">🔋 나의 학습 에너지 스타일은…</div>
+      <div class="opts o1" id="gs2">
+        <button class="opt" onclick="po('s2','TY',this,'ogn')" data-g="s2">🌊 느려도 꾸준히, 절대 지치지 않아요 (태음인)</button>
+        <button class="opt" onclick="po('s2','SO',this,'ogn')" data-g="s2">🔥 집중 폭발! 근데 들쭉날쭉해요 (소양인)</button>
+        <button class="opt" onclick="po('s2','TA',this,'ogn')" data-g="s2">💎 강한 의지로 목표를 향해 달려요 (태양인)</button>
+        <button class="opt" onclick="po('s2','SO2',this,'ogn')" data-g="s2">🌸 섬세하고 분위기에 많이 영향받아요 (소음인)</button>
+      </div>
+    </div>
+    <div class="qcard"><div class="qtxt">😰 어려운 영어 문제를 만나면…</div>
+      <div class="opts o1" id="gs3">
+        <button class="opt" onclick="po('s3','TY',this,'ogn')" data-g="s3">🔍 완전히 이해될 때까지 끝까지 파고들어요</button>
+        <button class="opt" onclick="po('s3','SO',this,'ogn')" data-g="s3">🚀 다른 방법을 빠르게 찾아서 넘어가요</button>
+        <button class="opt" onclick="po('s3','TA',this,'ogn')" data-g="s3">🛠️ 일단 써보면서 몸으로 감을 익혀요</button>
+        <button class="opt" onclick="po('s3','SO2',this,'ogn')" data-g="s3">🤝 선생님이나 친구에게 바로 물어봐요</button>
+      </div>
+    </div>
+    <div class="nrow">
+      <button class="bbk" onclick="sstep(0)">← 이전</button>
+      <button class="bnx" id="bs2" onclick="sstep(2)" disabled>다음 →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: ENNEAGRAM -->
+  <div class="stp" id="s2">
+    <div class="prog-dots"><div class="pd dn"></div><div class="pd dn"></div><div class="pd on"></div></div>
+    <div class="sbadge sbo">③ 에니어그램 — 내 학습 동기</div>
+    <div class="qs-title">왜 영어를 배우고 싶어요?</div>
+    <div class="qs-sub">솔직한 마음을 골라봐요 💫</div>
+    <div class="qcard"><div class="qtxt">🎯 영어를 배우는 가장 큰 이유는?</div>
+      <div class="opts o2" id="ge1">
+        <button class="opt" onclick="po('e1','1',this,'opu')" data-g="e1">✅ 완벽하게<br>마스터하고 싶어서</button>
+        <button class="opt" onclick="po('e1','2',this,'opu')" data-g="e1">🤝 외국 친구와<br>소통하고 싶어서</button>
+        <button class="opt" onclick="po('e1','3',this,'opu')" data-g="e1">🏆 성적 올리고<br>인정받고 싶어서</button>
+        <button class="opt" onclick="po('e1','4',this,'opu')" data-g="e1">🎨 나만의 방식으로<br>표현하고 싶어서</button>
+      </div>
+    </div>
+    <div class="qcard"><div class="qtxt">😩 영어 공부할 때 가장 힘든 순간은?</div>
+      <div class="opts o2" id="ge2">
+        <button class="opt" onclick="po('e2','5',this,'opu')" data-g="e2">📚 아직 너무<br>부족한 것 같을 때</button>
+        <button class="opt" onclick="po('e2','6',this,'opu')" data-g="e2">😰 뭘 해야 할지<br>막막하고 불안할 때</button>
+        <button class="opt" onclick="po('e2','7',this,'opu')" data-g="e2">😴 같은 내용을<br>반복 또 반복할 때</button>
+        <button class="opt" onclick="po('e2','8',this,'opu')" data-g="e2">😤 억지로 시켜서<br>해야 할 때</button>
+      </div>
+    </div>
+    <div class="qcard"><div class="qtxt">😊 영어 공부가 가장 즐거운 순간은?</div>
+      <div class="opts o2" id="ge3">
+        <button class="opt" onclick="po('e3','9',this,'opu')" data-g="e3">😌 편안하게<br>즐기면서 배울 때</button>
+        <button class="opt" onclick="po('e3','1',this,'opu')" data-g="e3">💯 완벽한 문장이<br>나왔을 때</button>
+        <button class="opt" onclick="po('e3','3',this,'opu')" data-g="e3">🎯 목표를<br>달성했을 때</button>
+        <button class="opt" onclick="po('e3','7',this,'opu')" data-g="e3">🌟 새롭고 재미있는<br>걸 발견했을 때</button>
+      </div>
+    </div>
+    <div class="nrow">
+      <button class="bbk" onclick="sstep(1)">← 이전</button>
+      <button class="bnx" id="be3" onclick="analyze()" disabled>🤖 AI 분석하기!</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: ANALYZING -->
+  <div class="stp" id="s3">
+    <div class="spin-wrap">
+      <div class="spinner"></div>
+      <div style="font-size:16px;font-weight:900;color:var(--atx)">AI가 분석하는 중이에요...</div>
+      <div style="font-size:13px;color:var(--atxs)">세 가지 성격 체계를 통합 중 🔬</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PAGE 2: MY TYPE ── -->
+<div class="apage" id="p2">
+  <div id="res-content">
+    <div style="text-align:center;padding:3rem 1rem">
+      <div style="font-size:44px;margin-bottom:1rem">🔍</div>
+      <div style="font-size:16px;font-weight:800;color:var(--atx);margin-bottom:.5rem">아직 검사 전이에요!</div>
+      <div style="font-size:13px;color:var(--atxs);margin-bottom:1.25rem">검사를 하면 나만의 학습 유형을 알 수 있어요</div>
+      <button class="btn-pri" style="max-width:200px;margin:0 auto;display:block" onclick="goPage(1);sstep(0)">검사 시작하기 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── PAGE 3: GOALS ── -->
+<div class="apage" id="p3">
+  <div style="font-size:16px;font-weight:900;color:var(--atx);margin-bottom:.875rem">🎯 나의 학습 목표</div>
+  <div id="goals-list"></div>
+  <button class="btn-pri" onclick="openGoalModal()">+ 새 목표 추가하기</button>
+  <div class="aibox" style="margin-top:.875rem"><div class="ailbl">🤖 AI 목표 코치</div><div class="aitxt" id="goal-tip">목표를 추가하면 AI가 맞춤 조언을 드려요!</div></div>
+</div>
+
+<!-- ── PAGE 4: TRACKER ── -->
+<div class="apage" id="p4">
+  <div style="font-size:16px;font-weight:900;color:var(--atx);margin-bottom:.875rem">📅 학습 트래커</div>
+  <div class="streak-row">
+    <div class="sr-item"><div class="sr-num" id="s-streak">0</div><div class="sr-lbl">🔥 연속일</div></div>
+    <div class="sr-item"><div class="sr-num" id="s-xp">0</div><div class="sr-lbl">⭐ XP</div></div>
+    <div class="sr-item"><div class="sr-num" id="s-days">0</div><div class="sr-lbl">📚 총 학습일</div></div>
+  </div>
+  <div class="xp-card">
+    <div class="xp-top"><span>레벨 <b id="lv-n">1</b> — <span id="lv-nm">영어 새싹 🌱</span></span><span id="xp-lb">0/100 XP</span></div>
+    <div class="xp-trk"><div class="xp-fil" id="xp-f" style="width:0%"></div></div>
+  </div>
+  <div class="acard">
+    <div class="acard-hd">🗓️ 이번 주</div>
+    <div class="wgrid" id="wgrid"></div>
+    <div style="display:flex;gap:8px;font-size:11px;color:var(--atxs)">
+      <span><span style="width:10px;height:10px;border-radius:2px;background:var(--agnl);border:1px solid var(--agn);display:inline-block;vertical-align:middle;margin-right:3px"></span>완료</span>
+      <span><span style="width:10px;height:10px;border-radius:2px;border:2px solid var(--apk);display:inline-block;vertical-align:middle;margin-right:3px"></span>오늘</span>
+    </div>
+  </div>
+  <div class="acard">
+    <div class="acard-hd">✅ 오늘 학습 기록</div>
+    <div class="act-chips">
+      <span class="ach" onclick="togAct('단어 암기 🃏',this)">단어 암기 🃏</span>
+      <span class="ach" onclick="togAct('듣기 연습 🎧',this)">듣기 연습 🎧</span>
+      <span class="ach" onclick="togAct('독해 📖',this)">독해 📖</span>
+      <span class="ach" onclick="togAct('회화 연습 🗣️',this)">회화 연습 🗣️</span>
+      <span class="ach" onclick="togAct('문법 📝',this)">문법 📝</span>
+      <span class="ach" onclick="togAct('영어 영상 🎬',this)">영어 영상 🎬</span>
+      <span class="ach" onclick="togAct('AI 대화 🤖',this)">AI 대화 🤖</span>
+    </div>
+    <button class="btn-pri" style="margin-top:0" onclick="logDay()">오늘 기록하기 +50XP ✨</button>
+  </div>
+  <div class="acard">
+    <div class="acard-hd">📜 최근 기록</div>
+    <div id="log-list"></div>
+  </div>
+</div>
+
+<!-- ── TEACHER PAGE 0 ── -->
+<div class="apage" id="tp0" style="display:none">
+  <div class="app-hero" style="background:linear-gradient(135deg,#534AB7,#60A5FA)">
+    <div class="app-hero-sub">선생님 대시보드</div>
+    <div class="app-hero-title">우리 반 영어 학습<br>동기 현황</div>
+    <div class="app-hero-desc">학생들의 성격 유형과 학습 동기를 한눈에 확인해요</div>
+  </div>
+  <div class="t-stat">
+    <div class="ts-card"><div class="ts-num">5</div><div class="ts-lbl">👥 전체 학생</div></div>
+    <div class="ts-card"><div class="ts-num">4</div><div class="ts-lbl">🔥 활성 학생</div></div>
+    <div class="ts-card"><div class="ts-num">142</div><div class="ts-lbl">⭐ 평균 XP</div></div>
+  </div>
+  <div class="acard"><div class="acard-hd">🧠 MBTI 분포</div><div id="mbti-dist"></div></div>
+  <div class="acard"><div class="acard-hd">☯️ 사상체질 분포</div><div id="saju-dist"></div></div>
+  <div class="acard"><div class="acard-hd">💡 학급 학습 동기 인사이트</div>
+    <div class="aibox" style="margin:0"><div class="ailbl">🤖 AI 분석</div>
+    <div class="aitxt">우리 반에는 소양인(활동적) 학생과 태음인(꾸준한) 학생이 많아요. 소양인 학생들을 위해 짧고 강렬한 활동을, 태음인 학생들을 위해 장기 프로젝트를 함께 운영하면 효과적이에요. 그룹 활동 시 두 유형을 섞으면 시너지가 납니다! 🌟</div></div>
+  </div>
+</div>
+
+<!-- ── TEACHER PAGE 1 ── -->
+<div class="apage" id="tp1" style="display:none">
+  <div style="font-size:16px;font-weight:900;color:var(--atx);margin-bottom:.875rem">👥 학생 목록</div>
+  <div style="display:flex;gap:6px;margin-bottom:.875rem;flex-wrap:wrap" id="filter-btns">
+    <button class="btn-sm on" onclick="filterStu('all',this)">전체</button>
+    <button class="btn-sm" onclick="filterStu('TY',this)">태음인</button>
+    <button class="btn-sm" onclick="filterStu('SO',this)">소양인</button>
+    <button class="btn-sm" onclick="filterStu('TA',this)">태양인</button>
+    <button class="btn-sm" onclick="filterStu('SO2',this)">소음인</button>
+  </div>
+  <div id="stu-list"></div>
+</div>
+
+<!-- ── TEACHER PAGE 2 ── -->
+<div class="apage" id="tp2" style="display:none">
+  <div style="font-size:16px;font-weight:900;color:var(--atx);margin-bottom:.875rem">🏆 학습 성취 현황</div>
+  <div class="acard"><div class="acard-hd">📊 학생별 XP 순위</div><div id="xp-rank"></div></div>
+  <div class="acard"><div class="acard-hd">🔥 연속 학습 스트릭 TOP</div><div id="streak-rank"></div></div>
+  <div class="acard"><div class="acard-hd">🎯 목표 달성률</div><div id="goal-rank"></div></div>
+</div>
+
+<!-- GOAL MODAL -->
+<div class="modal-bg" id="goal-modal">
+  <div class="modal">
+    <div class="modal-hd"><span>🎯 새 목표 만들기</span><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="goal-form">
+      <label>목표 이름</label><input type="text" id="gf-name" placeholder="예: 토익 600점 달성하기">
+      <label>카테고리</label>
+      <select id="gf-cat"><option value="시험">📋 시험 준비</option><option value="회화">🗣️ 회화 실력</option><option value="독해">📖 독해 향상</option><option value="단어">🃏 단어 암기</option><option value="습관">📅 학습 습관</option></select>
+      <label>목표 기간</label>
+      <select id="gf-dur"><option value="7">1주일</option><option value="30">1개월</option><option value="90">3개월</option><option value="180">6개월</option></select>
+      <label>다짐 한마디</label><textarea id="gf-msg" rows="2" placeholder="나에게 하는 다짐을 적어봐요!"></textarea>
+    </div>
+    <button class="btn-pri" style="margin-top:0" onclick="addGoal()">목표 추가하기 🚀</button>
+  </div>
+</div>
+
+<!-- STUDENT DETAIL MODAL -->
+<div class="modal-bg" id="stu-modal"><div class="modal" id="stu-modal-content"></div></div>
+
+</div><!-- /app -->
+</div><!-- /app-shell -->
+
 
 <script>
-// ───── QR CODE ─────
-let currentQR = null;
+/* ══════════════════════════════
+   LANDING QR
+══════════════════════════════ */
+let _qr = null;
+function makeQR(){
+  const url = document.getElementById('qr-url').value.trim();
+  if(!url){ alert('URL을 입력해주세요!'); return; }
+  const c = document.getElementById('qr-canvas');
+  c.innerHTML = '';
+  _qr = new QRCode(c,{text:url,width:220,height:220,colorDark:'#1a1a2e',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});
+}
+function dlQR(){
+  const cv = document.querySelector('#qr-canvas canvas');
+  const im = document.querySelector('#qr-canvas img');
+  let src = cv ? cv.toDataURL('image/png') : (im ? im.src : '');
+  if(!src){ alert('QR코드를 먼저 생성해주세요!'); return; }
+  const a = document.createElement('a'); a.href=src; a.download='English-learning-adviser-QR.png'; a.click();
+}
+window.addEventListener('load', makeQR);
 
-function generateQR() {
-  const url = document.getElementById('url-input').value.trim();
-  if (!url) { alert('URL을 입력해주세요!'); return; }
+/* Scroll reveal */
+const ro = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
-  const container = document.getElementById('qr-canvas');
-  container.innerHTML = '';
-
-  currentQR = new QRCode(container, {
-    text: url,
-    width: 220,
-    height: 220,
-    colorDark: '#1a1a2e',
-    colorLight: '#ffffff',
-    correctLevel: QRCode.CorrectLevel.H
-  });
+/* Landing ↔ App toggle */
+function openApp(){
+  document.getElementById('landing').style.display='none';
+  document.getElementById('app-shell').style.display='block';
+  window.scrollTo(0,0);
+  renderTracker(); renderGoals();
+}
+function closeApp(){
+  document.getElementById('app-shell').style.display='none';
+  document.getElementById('landing').style.display='block';
+  window.scrollTo(0,0);
 }
 
-function downloadQR() {
-  const canvas = document.querySelector('#qr-canvas canvas');
-  const img = document.querySelector('#qr-canvas img');
-  let src = '';
-  if (canvas) src = canvas.toDataURL('image/png');
-  else if (img) src = img.src;
-  else { alert('QR코드를 먼저 생성해주세요!'); return; }
-  const a = document.createElement('a');
-  a.href = src; a.download = 'English-learning-adviser-QR.png'; a.click();
+/* ══════════════════════════════
+   APP DATA
+══════════════════════════════ */
+const D={
+  mode:'student',page:0,tpage:0,
+  mbti:{ei:50,sn:50,tf:50,jp:50},
+  saju:{s1:null,s2:null,s3:null},sDone:0,
+  enn:{e1:null,e2:null,e3:null},eDone:0,
+  result:null,goals:[],todayActs:[],
+  tracker:{xp:0,streak:0,days:0,log:[],done:{}},
+  students:[
+    {id:1,name:'김지은',emoji:'😊',mbti:'ENFP',saju:'SO',enn:'7번 열정가',xp:280,streak:5,days:8,moti:88,goals:2,done:1,color:'#FF6B9D'},
+    {id:2,name:'박서준',emoji:'🤔',mbti:'INTJ',saju:'TY',enn:'5번 탐구자',xp:195,streak:3,days:6,moti:72,goals:3,done:2,color:'#60A5FA'},
+    {id:3,name:'이수아',emoji:'🌟',mbti:'ESFJ',saju:'SO2',enn:'2번 조력자',xp:130,streak:2,days:4,moti:65,goals:1,done:0,color:'#4ECDC4'},
+    {id:4,name:'최민준',emoji:'💪',mbti:'ESTP',saju:'TA',enn:'8번 도전자',xp:210,streak:7,days:9,moti:91,goals:2,done:1,color:'#FF9F43'},
+    {id:5,name:'한예린',emoji:'🌸',mbti:'ISFP',saju:'SO2',enn:'4번 개인주의자',xp:85,streak:1,days:3,moti:58,goals:1,done:0,color:'#A78BFA'},
+  ]
+};
+
+/* Sliders */
+const slM={
+  ei:['E 강함! 외향적','약간 E','중간이에요','약간 I','I 강함! 내향적'],
+  sn:['S 강함! 감각적','약간 S','중간이에요','약간 N','N 강함! 직관적'],
+  tf:['T 강함! 논리적','약간 T','중간이에요','약간 F','F 강함! 감성적'],
+  jp:['J 강함! 계획적','약간 J','중간이에요','약간 P','P 강함! 즉흥적']
+};
+function sl(ax,v){D.mbti[ax]=parseInt(v);document.getElementById('lv-'+ax).textContent=slM[ax][Math.min(Math.round(v/25),4)];}
+
+function po(g,v,el,cls){
+  document.querySelectorAll('[data-g="'+g+'"]').forEach(b=>b.className='opt');
+  el.classList.add(cls);
+  if(g.startsWith('s')){D.saju[g]=v;D.sDone=Object.values(D.saju).filter(x=>x).length;document.getElementById('bs2').disabled=D.sDone<3;}
+  else{D.enn[g]=v;D.eDone=Object.values(D.enn).filter(x=>x).length;document.getElementById('be3').disabled=D.eDone<3;}
 }
 
-// Generate initial QR on load
-window.addEventListener('load', () => {
-  generateQR();
-});
+function getMBTI(){const{ei,sn,tf,jp}=D.mbti;return(ei<50?'E':'I')+(sn<50?'S':'N')+(tf<50?'T':'F')+(jp<50?'J':'P');}
+function getSaju(){const c={};Object.values(D.saju).forEach(v=>{if(v)c[v]=(c[v]||0)+1});const d=Object.entries(c).sort((a,b)=>b[1]-a[1])[0]?.[0]||'TY';return{TY:'태음인',SO:'소양인',TA:'태양인',SO2:'소음인'}[d]||'태음인';}
+function getEnn(){const c={};Object.values(D.enn).forEach(v=>{if(v)c[v]=(c[v]||0)+1});const d=Object.entries(c).sort((a,b)=>b[1]-a[1])[0]?.[0]||'5';const m={'1':'완벽주의자','2':'조력자','3':'성취자','4':'개인주의자','5':'탐구자','6':'충성가','7':'열정가','8':'도전자','9':'평화주의자'};return{num:d,name:d+'번 '+(m[d]||'탐구자')};}
 
-// ───── SCROLL REVEAL ─────
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); }
-  });
-}, { threshold: 0.12 });
+function setMode(m){
+  D.mode=m;
+  ['stu','tea'].forEach((x,i)=>document.getElementById('mb-'+x).classList.toggle('on',i===(m==='student'?0:1)));
+  document.getElementById('snav').style.display=m==='student'?'flex':'none';
+  document.getElementById('tnav').style.display=m==='teacher'?'flex':'none';
+  document.querySelectorAll('.apage').forEach(p=>p.classList.remove('on'));
+  if(m==='student'){document.getElementById('p'+D.page).classList.add('on');}
+  else{goTPage(0);renderTeacher();}
+}
+function goPage(n){
+  document.querySelectorAll('.apage').forEach(p=>p.classList.remove('on'));
+  document.getElementById('p'+n).classList.add('on');
+  document.querySelectorAll('#snav .nav-btn').forEach((b,i)=>b.classList.toggle('on',i===n));
+  D.page=n;
+  if(n===4)renderTracker();
+  if(n===3)renderGoals();
+  window.scrollTo(0,0);
+}
+function goTPage(n){
+  document.querySelectorAll('.apage').forEach(p=>{p.classList.remove('on');p.style.display='none';});
+  const el=document.getElementById('tp'+n);
+  el.style.display='block'; el.classList.add('on');
+  document.querySelectorAll('#tnav .nav-btn').forEach((b,i)=>b.classList.toggle('on',i===n));
+  D.tpage=n; window.scrollTo(0,0);
+}
+function sstep(n){document.querySelectorAll('.stp').forEach((s,i)=>s.classList.toggle('on',i===n));}
 
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+/* ── ANALYZE ── */
+async function analyze(){
+  sstep(3);
+  const mbti=getMBTI(),saju=getSaju(),enn=getEnn();
+  const prompt=`중고등학생 영어 학습 동기 전문가입니다. 다음 성격 유형을 분석해 영어 학습 동기를 높일 수 있는 최적의 방법을 추천하세요.
+MBTI: ${mbti} | 사상체질: ${saju} | 에니어그램: ${enn.name}
+JSON만 응답(다른 텍스트 없이):
+{"profileName":"학습자 유형이름(12자이내)","emoji":"이모지1개","motiScore":숫자(60-95),"motiMessage":"핵심 학습 동기 한문장","strengths":"영어학습 강점 2문장","weaknesses":"주의할점 1문장","methods":[{"icon":"이모지","name":"학습법명(6자이내)","desc":"구체적방법(15자이내)"},{"icon":"이모지","name":"학습법명(6자이내)","desc":"구체적방법(15자이내)"},{"icon":"이모지","name":"학습법명(6자이내)","desc":"구체적방법(15자이내)"},{"icon":"이모지","name":"학습법명(6자이내)","desc":"구체적방법(15자이내)"}],"dailyChallenge":"오늘 할 수 있는 5분짜리 영어 미션 1가지","motivationTip":"동기 떨어질 때 회복하는 방법 2문장","bars":{"지속성":숫자,"집중력":숫자,"창의성":숫자,"사회성":숫자}}`;
+
+  let r=null;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    const txt=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    r=JSON.parse(txt);
+  }catch(e){
+    r={profileName:'균형형 탐구자',emoji:'🌟',motiScore:75,motiMessage:'꾸준함과 열정 사이에서 나만의 페이스를 찾아가요',
+      strengths:`${mbti} 유형은 자신만의 리듬으로 꾸준히 성장해요. ${saju} 기질로 안정적인 학습이 가능해요.`,
+      weaknesses:'완벽하려 하기보다 즐기는 데 집중해봐요.',
+      methods:[{icon:'📚',name:'독해 집중',desc:'매일 짧은 영문 읽기'},{icon:'🎧',name:'청취 훈련',desc:'팟캐스트 15분 듣기'},{icon:'✍️',name:'일기 쓰기',desc:'영어로 하루 3줄 쓰기'},{icon:'💬',name:'AI 대화',desc:'AI와 영어 대화 5분'}],
+      dailyChallenge:'지금 당장 좋아하는 노래 영어 가사 5줄 읽어보기 🎵',
+      motivationTip:'억지로 하기보다 좋아하는 주제의 영어 콘텐츠를 찾아봐요. 재미있으면 저절로 공부하게 돼요!',
+      bars:{지속성:75,집중력:78,창의성:72,사회성:68}};
+  }
+
+  D.result={mbti,saju,enn:enn.name,data:r};
+  renderResult(); updateMotiMeter(r.motiScore); updateHomeStatus();
+  goPage(2);
+}
+
+function renderResult(){
+  const{mbti,saju,enn,data:r}=D.result;
+  const bc={'지속성':'#4ECDC4','집중력':'#FF6B9D','창의성':'#FFD166','사회성':'#A78BFA'};
+  document.getElementById('res-content').innerHTML=`
+    <div class="res-hero">
+      <span class="res-em">${r.emoji}</span>
+      <div class="res-nm">${r.profileName}</div>
+      <div style="display:flex;justify-content:center;gap:5px;margin:.5rem 0;flex-wrap:wrap">
+        <span class="chip cpk">${mbti}</span><span class="chip cgn">${saju}</span><span class="chip cpu">${enn}</span>
+      </div>
+      <div class="res-sb">${r.motiMessage}</div>
+    </div>
+    <div class="acard">
+      <div class="acard-hd">💪 나의 학습 동기 지수</div>
+      <div style="display:flex;align-items:center;gap:1rem">
+        <div style="font-size:40px;font-weight:900;color:var(--apk)">${r.motiScore}<span style="font-size:18px">%</span></div>
+        <div style="flex:1"><div style="font-size:12px;color:var(--atxs)">${r.strengths}</div></div>
+      </div>
+    </div>
+    <div class="acard">
+      <div class="acard-hd">📊 학습 역량 프로필</div>
+      ${Object.entries(r.bars).map(([k,v])=>`<div class="brow"><span class="blbl">${k}</span><div class="btrk"><div class="bfil" style="width:${v}%;background:${bc[k]||'#FF6B9D'}"></div></div><span class="bpct" style="color:${bc[k]||'#FF6B9D'}">${v}%</span></div>`).join('')}
+    </div>
+    <div class="acard">
+      <div class="acard-hd">🎯 추천 학습법</div>
+      <div class="mgrid">
+        ${r.methods.map(m=>`<div class="mc" onclick="alert('${m.name}: ${m.desc}')"><div class="mc-ic">${m.icon}</div><div class="mc-nm">${m.name}</div><div class="mc-ds">${m.desc}</div></div>`).join('')}
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,var(--aywl),var(--aorl));border:1px solid rgba(255,159,67,.25);border-radius:14px;padding:1rem;margin:.875rem 0">
+      <div style="font-size:11px;font-weight:800;color:#9a4000;margin-bottom:.4rem">⚡ 오늘의 5분 미션!</div>
+      <div style="font-size:13px;color:#7a3500;line-height:1.5">${r.dailyChallenge}</div>
+    </div>
+    <div class="aibox"><div class="ailbl">💊 동기 회복 처방전</div><div class="aitxt">${r.motivationTip}</div></div>
+    ${r.weaknesses?`<div style="background:var(--abll);border:1px solid rgba(96,165,250,.2);border-radius:12px;padding:.875rem;margin-bottom:.875rem"><div style="font-size:11px;font-weight:800;color:#1e40af;margin-bottom:.4rem">📌 알아두면 좋아요</div><div style="font-size:13px;color:#1e40af;line-height:1.5">${r.weaknesses}</div></div>`:''}
+    <button class="btn-sec" onclick="goPage(1);sstep(0)">🔄 다시 검사하기</button>
+  `;
+  setTimeout(()=>{document.querySelectorAll('.bfil').forEach(b=>{const w=b.style.width;b.style.width='0';setTimeout(()=>b.style.width=w,100);});},200);
+}
+
+function updateMotiMeter(score){
+  const offset=314-(314*score/100);
+  document.getElementById('moti-ring').style.strokeDashoffset=offset;
+  document.getElementById('moti-pct').textContent=score+'%';
+  const labels=['학습 동기가 낮아요 😢','동기를 키워봐요 💪','좋은 편이에요 😊','동기가 높아요 🌟','최고의 상태예요 🔥'];
+  document.getElementById('moti-lbl').textContent=labels[Math.min(Math.floor(score/20),4)];
+  document.getElementById('moti-sub').textContent=D.result?.data?.motiMessage||'';
+  document.getElementById('start-btn').textContent='내 유형 다시 보기 →';
+  document.getElementById('start-btn').onclick=()=>goPage(2);
+}
+
+function updateHomeStatus(){
+  if(!D.result) return;
+  const{mbti,saju,enn,data:r}=D.result;
+  document.getElementById('home-status').innerHTML=`
+    <div style="background:var(--abg2);border:1px solid var(--abr);border-radius:14px;padding:.875rem;margin-bottom:.875rem;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="goPage(2)">
+      <div style="font-size:34px">${r.emoji}</div>
+      <div style="flex:1">
+        <div style="font-size:11px;color:var(--atxs);margin-bottom:2px">내 학습 유형</div>
+        <div style="font-size:15px;font-weight:900;color:var(--atx)">${r.profileName}</div>
+        <div style="display:flex;gap:4px;margin-top:4px;flex-wrap:wrap">
+          <span class="chip cpk" style="font-size:10px">${mbti}</span>
+          <span class="chip cgn" style="font-size:10px">${saju}</span>
+          <span class="chip cpu" style="font-size:10px">${enn}</span>
+        </div>
+      </div>
+      <div style="color:var(--atxs);font-size:20px">›</div>
+    </div>`;
+}
+
+/* Goals */
+function openGoalModal(){document.getElementById('goal-modal').classList.add('on');}
+function closeModal(){document.getElementById('goal-modal').classList.remove('on');document.getElementById('stu-modal').classList.remove('on');}
+function addGoal(){
+  const name=document.getElementById('gf-name').value.trim();
+  if(!name){toast('목표 이름을 입력해주세요!');return;}
+  const cat=document.getElementById('gf-cat').value,dur=parseInt(document.getElementById('gf-dur').value),msg=document.getElementById('gf-msg').value.trim();
+  D.goals.push({id:Date.now(),name,cat,dur,msg,progress:0,done:false,created:new Date().toLocaleDateString('ko-KR')});
+  closeModal(); renderGoals(); toast('🎯 목표가 추가됐어요!');
+}
+function catIcon(c){return{시험:'📋',회화:'🗣️',독해:'📖',단어:'🃏',습관:'📅'}[c]||'🎯';}
+function renderGoals(){
+  const el=document.getElementById('goals-list');
+  if(!D.goals.length){el.innerHTML='<div style="text-align:center;padding:2rem;font-size:13px;color:var(--atxs)">아직 목표가 없어요.<br>첫 목표를 추가해봐요! 🚀</div>';return;}
+  el.innerHTML=D.goals.map(g=>`
+    <div class="goal-card ${g.done?'done':''}">
+      <div class="gc-title">${catIcon(g.cat)} ${g.name}
+        ${g.done?'<span style="background:var(--agnl);color:#0f6e56;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:800">완료 🎉</span>':'<span class="chip cor" style="font-size:10px">'+g.cat+'</span>'}
+      </div>
+      <div class="gc-sub">${g.msg||'목표를 향해 달려봐요!'} · ${g.dur}일 목표</div>
+      <div class="gc-prog"><div class="gc-fill" style="width:${g.progress}%"></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
+        <span class="gc-pct">${g.progress}% 달성</span>
+        <div style="display:flex;gap:4px">
+          ${!g.done?`<button class="btn-sm" onclick="addProg(${g.id})">+10%</button>`:''}
+          ${!g.done?`<button class="btn-sm" onclick="doneGoal(${g.id})" style="background:var(--agnl);border-color:var(--agn);color:#0f6e56">완료!</button>`:''}
+        </div>
+      </div>
+    </div>`).join('');
+}
+function addProg(id){const g=D.goals.find(x=>x.id===id);if(g){g.progress=Math.min(100,g.progress+10);renderGoals();toast('+10% 달성! 계속해요! 💪');}}
+function doneGoal(id){const g=D.goals.find(x=>x.id===id);if(g){g.done=true;g.progress=100;D.tracker.xp+=100;renderGoals();renderTracker();toast('🎉 목표 달성! +100XP!');}}
+
+/* Tracker */
+function togAct(a,el){el.classList.toggle('on');const i=D.todayActs.indexOf(a);if(i>=0)D.todayActs.splice(i,1);else D.todayActs.push(a);}
+function logDay(){
+  if(!D.todayActs.length){toast('활동을 하나 이상 선택해주세요! 😊');return;}
+  const key=new Date().toDateString();
+  if(D.tracker.done[key]){toast('오늘은 이미 기록했어요! 🌟');return;}
+  D.tracker.done[key]=true; D.tracker.xp+=50; D.tracker.days+=1;
+  const y=new Date(); y.setDate(y.getDate()-1);
+  D.tracker.streak=D.tracker.done[y.toDateString()]?D.tracker.streak+1:1;
+  D.tracker.log.push({date:new Date().toLocaleDateString('ko-KR'),acts:[...D.todayActs]});
+  D.todayActs=[]; document.querySelectorAll('.ach').forEach(a=>a.classList.remove('on'));
+  document.getElementById('home-streak').textContent='🔥 '+D.tracker.streak+'일 연속 학습 중!';
+  renderTracker(); toast('🎉 +50XP! 오늘도 최고예요!');
+}
+function renderTracker(){
+  document.getElementById('s-streak').textContent=D.tracker.streak;
+  document.getElementById('s-xp').textContent=D.tracker.xp;
+  document.getElementById('s-days').textContent=D.tracker.days;
+  const lvs=[[100,'영어 새싹 🌱'],[300,'영어 도전자 🌿'],[600,'영어 탐험가 🌳'],[1000,'영어 마스터 🏆'],[99999,'영어 레전드 👑']];
+  let lv=1,ln='영어 새싹 🌱',nx=100,pr=0;
+  for(let i=0;i<lvs.length;i++){if(D.tracker.xp>=pr){lv=i+1;ln=lvs[i][1];nx=lvs[i][0];}if(D.tracker.xp<lvs[i][0]){lv=i+1;ln=lvs[i][1];nx=lvs[i][0];break;}pr=lvs[i][0];}
+  document.getElementById('lv-n').textContent=lv;
+  document.getElementById('lv-nm').textContent=ln;
+  document.getElementById('xp-lb').textContent=D.tracker.xp+'/'+nx+' XP';
+  document.getElementById('xp-f').style.width=Math.min(100,Math.round(D.tracker.xp/nx*100))+'%';
+  const today=new Date(),dow=today.getDay(),days=['일','월','화','수','목','금','토'];
+  let wh='';
+  for(let i=0;i<7;i++){const d=new Date(today);d.setDate(today.getDate()-dow+i);const k=d.toDateString(),dn=D.tracker.done[k],td=i===dow;wh+=`<div class="wday${dn?' dn':''}${td?' td':''}"><span class="we">${dn?'✅':td?'📍':'·'}</span><span>${days[i]}</span></div>`;}
+  document.getElementById('wgrid').innerHTML=wh;
+  const ll=document.getElementById('log-list');
+  ll.innerHTML=D.tracker.log.length?D.tracker.log.slice().reverse().slice(0,5).map(l=>`<div class="log-row"><span class="lr-ic">📚</span><div class="lr-tx"><div class="lr-nm">${l.acts.join(' · ')}</div><div class="lr-dt">${l.date}</div></div><span class="lr-xp">+50XP</span></div>`).join(''):'<div style="text-align:center;padding:1.5rem;font-size:13px;color:var(--atxs)">아직 기록이 없어요 🌱</div>';
+}
+
+/* Teacher */
+function renderTeacher(){renderDist();renderStuList('all');renderRanks();}
+function renderDist(){
+  const sc={TY:'태음인',SO:'소양인',TA:'태양인',SO2:'소음인'};
+  const mc={},jc={},col=['#FF6B9D','#60A5FA','#4ECDC4','#FFD166','#A78BFA'];
+  D.students.forEach(s=>{mc[s.mbti[0]]=(mc[s.mbti[0]]||0)+1;jc[s.saju]=(jc[s.saju]||0)+1;});
+  const t=D.students.length;
+  document.getElementById('mbti-dist').innerHTML=Object.entries(mc).map(([k,v],i)=>`<div class="brow"><span class="blbl">${k}형</span><div class="btrk"><div class="bfil" style="width:${Math.round(v/t*100)}%;background:${col[i]}"></div></div><span class="bpct">${v}명</span></div>`).join('');
+  document.getElementById('saju-dist').innerHTML=Object.entries(jc).map(([k,v],i)=>`<div class="brow"><span class="blbl">${sc[k]||k}</span><div class="btrk"><div class="bfil" style="width:${Math.round(v/t*100)}%;background:${col[i]}"></div></div><span class="bpct">${v}명</span></div>`).join('');
+}
+function filterStu(f,el){document.querySelectorAll('#filter-btns .btn-sm').forEach(b=>b.classList.remove('on'));el.classList.add('on');renderStuList(f);}
+function renderStuList(f){
+  const sc={TY:'태음인',SO:'소양인',TA:'태양인',SO2:'소음인'};
+  const list=f==='all'?D.students:D.students.filter(s=>s.saju===f);
+  document.getElementById('stu-list').innerHTML=list.map(s=>`
+    <div class="stu-card" onclick="openStuModal(${s.id})">
+      <div class="stu-av" style="background:${s.color}22;color:${s.color}">${s.emoji}</div>
+      <div class="stu-info">
+        <div class="stu-nm">${s.name}</div>
+        <div class="stu-ty" style="display:flex;gap:4px;margin-top:2px;flex-wrap:wrap">
+          <span class="chip cpk" style="font-size:9px">${s.mbti}</span>
+          <span class="chip cgn" style="font-size:9px">${sc[s.saju]||s.saju}</span>
+          <span class="chip cpu" style="font-size:9px">${s.enn}</span>
+        </div>
+        <div class="bar-mini"><div class="bm-fil" style="width:${s.moti}%;background:${s.color}"></div></div>
+      </div>
+      <div style="text-align:right">
+        <div class="stu-xp">${s.xp} XP</div>
+        <div class="stu-str">🔥 ${s.streak}일</div>
+      </div>
+    </div>`).join('');
+}
+function openStuModal(id){
+  const s=D.students.find(x=>x.id===id);
+  const sc={TY:'태음인',SO:'소양인',TA:'태양인',SO2:'소음인'};
+  const tips={SO:'소양인 학생은 짧고 다양한 활동을 좋아해요. 게임형 퀴즈나 역할극이 효과적이에요!',TY:'태음인 학생은 꾸준한 루틴이 강점이에요. 장기 프로젝트나 독서 활동을 권장해요.',TA:'태양인 학생은 목표 지향적이에요. 명확한 목표와 보상 시스템을 활용해보세요.',SO2:'소음인 학생은 감성적 접근이 효과적이에요. 영어 음악이나 영화로 시작해봐요.'};
+  document.getElementById('stu-modal-content').innerHTML=`
+    <div class="modal-hd"><span>${s.emoji} ${s.name}</span><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div style="display:flex;gap:5px;margin-bottom:1rem;flex-wrap:wrap">
+      <span class="chip cpk">${s.mbti}</span><span class="chip cgn">${sc[s.saju]}</span><span class="chip cpu">${s.enn}</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1rem">
+      <div class="ts-card"><div class="ts-num" style="color:${s.color}">${s.xp}</div><div class="ts-lbl">⭐ XP</div></div>
+      <div class="ts-card"><div class="ts-num" style="color:#FF9F43">${s.streak}</div><div class="ts-lbl">🔥 연속일</div></div>
+      <div class="ts-card"><div class="ts-num" style="color:#4ECDC4">${s.moti}%</div><div class="ts-lbl">💪 동기</div></div>
+    </div>
+    <div class="acard" style="margin-bottom:.75rem">
+      <div class="acard-hd" style="font-size:13px">📊 학습 현황</div>
+      <div class="brow"><span class="blbl">학습 동기</span><div class="btrk"><div class="bfil" style="width:${s.moti}%;background:${s.color}"></div></div><span class="bpct">${s.moti}%</span></div>
+      <div class="brow"><span class="blbl">목표 달성</span><div class="btrk"><div class="bfil" style="width:${s.goals?Math.round(s.done/s.goals*100):0}%;background:#4ECDC4"></div></div><span class="bpct">${s.done}/${s.goals}</span></div>
+      <div class="brow"><span class="blbl">출석 일수</span><div class="btrk"><div class="bfil" style="width:${Math.min(100,s.days*10)}%;background:#FFD166"></div></div><span class="bpct">${s.days}일</span></div>
+    </div>
+    <div class="aibox" style="margin-bottom:.75rem"><div class="ailbl">👩‍🏫 지도 포인트</div><div class="aitxt">${tips[s.saju]||'이 학생만의 강점을 살린 학습법을 찾아봐요!'}</div></div>
+    <button class="btn-pri" style="margin-top:0" onclick="closeModal()">확인</button>
+  `;
+  document.getElementById('stu-modal').classList.add('on');
+}
+function renderRanks(){
+  const medal=['🥇','🥈','🥉','4위','5위'];
+  const sx=[...D.students].sort((a,b)=>b.xp-a.xp);
+  document.getElementById('xp-rank').innerHTML=sx.map((s,i)=>`<div class="log-row"><span class="lr-ic">${medal[i]}</span><div class="lr-tx"><div class="lr-nm">${s.name}</div><div class="lr-dt">${s.mbti} · ${{TY:'태음인',SO:'소양인',TA:'태양인',SO2:'소음인'}[s.saju]}</div></div><span class="lr-xp">${s.xp} XP</span></div>`).join('');
+  const ss=[...D.students].sort((a,b)=>b.streak-a.streak);
+  document.getElementById('streak-rank').innerHTML=ss.map((s,i)=>`<div class="log-row"><span class="lr-ic">${medal[i]}</span><div class="lr-tx"><div class="lr-nm">${s.name}</div><div class="lr-dt">총 ${s.days}일 학습</div></div><span style="color:var(--aor);font-weight:800;font-size:13px">🔥 ${s.streak}일</span></div>`).join('');
+  document.getElementById('goal-rank').innerHTML=D.students.map(s=>`<div class="brow"><span class="blbl">${s.name}</span><div class="btrk"><div class="bfil" style="width:${s.goals?Math.round(s.done/s.goals*100):0}%;background:var(--agn)"></div></div><span class="bpct">${s.goals?Math.round(s.done/s.goals*100):0}%</span></div>`).join('');
+}
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500);}
+
+/* Init */
+renderTracker(); renderGoals();
 </script>
 </body>
 </html>
